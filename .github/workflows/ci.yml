@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  workflow_dispatch:
+
+jobs:
+  grbuilder:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Go install
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.18
+
+      - name: Modifed Gossa install
+        run: |
+          git clone https://github.com/hyunsooda/tools.git
+          cd tools/cmd/ssadump
+          go build
+          cp ssadump /home/runner/go/bin
+
+      - name: grbuilder - SSA build test
+        run: |
+          cd crates/grbuilder
+          cargo test -- --nocapture
+
+      - name: grparser - parser unit test
+        run: |
+          cd crates/grparser
+          cargo test

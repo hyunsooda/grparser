@@ -1,0 +1,9 @@
+[package]
+name = "grparser"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+nom = "7"
+grmacro = {path = "../grmacro"}
+ordered-float = { version = "3.0", default-features = false  }

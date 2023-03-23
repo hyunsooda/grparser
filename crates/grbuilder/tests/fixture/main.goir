@@ -1,0 +1,1488 @@
+# Name: example.init
+# Package: example
+# Synthetic: package initializer
+func init():
+0:                                                                entry P:0 S:2
+	t0 = *init$guard                                                   bool
+	if t0 goto 2 else 1
+	; [if loc]: if t0 goto 2 else 1 --> -
+1:                                                           init.start P:1 S:1
+	*init$guard = true:bool
+	t1 = fmt.init()                                                      ()
+	t2 = example/anotherpackage.init()                                   ()
+	t3 = example/mypack.init()                                           ()
+	jump 2
+2:                                                            init.done P:2 S:0
+	return
+
+# Name: (*example.A).foo
+# Package: example
+# Location: /home/hyunsoo/goanalyzer/example/project-example/main.go:12:13
+func (a *A) foo(v1 int, v2 int, v3 int, s string) int:
+0:                                                                entry P:0 S:0
+	t0 = local *A (a)                                                   **A
+	*t0 = a
+	t1 = local int (v1)                                                *int
+	*t1 = v1
+	t2 = local int (v2)                                                *int
+	*t2 = v2
+	t3 = local int (v3)                                                *int
+	*t3 = v3
+	t4 = local string (s)                                           *string
+	*t4 = s
+	t5 = *t1                                                            int
+	; var v1 int @ 13:9 is t5 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:13:9
+	t6 = *t1                                                            int
+	; var v1 int @ 13:14 is t6 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:13:14
+	t7 = t5 + t6                                                        int
+	; *ast.BinaryExpr @ 13:9 is t7 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:13:9
+	return t7
+
+# Name: (example.A).baz
+# Package: example
+# Location: /home/hyunsoo/goanalyzer/example/project-example/main.go:16:12
+func (a A) baz(v1 int, v2 int):
+0:                                                                entry P:0 S:0
+	t0 = local A (a)                                                     *A
+	*t0 = a
+	t1 = local int (v1)                                                *int
+	*t1 = v1
+	t2 = local int (v2)                                                *int
+	*t2 = v2
+	return
+
+# Name: (example.A).bar
+# Package: example
+# Location: /home/hyunsoo/goanalyzer/example/project-example/main.go:20:12
+func (a A) bar(v1 int, v2 int, abc example/mypack.ABC) int:
+0:                                                                entry P:0 S:0
+	t0 = local A (a)                                                     *A
+	*t0 = a
+	t1 = local int (v1)                                                *int
+	*t1 = v1
+	t2 = local int (v2)                                                *int
+	*t2 = v2
+	t3 = local example/mypack.ABC (abc)                 *example/mypack.ABC
+	*t3 = abc
+	return 1:int
+
+# Name: example.bar
+# Package: example
+# Location: /home/hyunsoo/goanalyzer/example/project-example/main.go:24:6
+func bar(v1 int, v2 int, v3 int, s string) (error, error, error):
+0:                                                                entry P:0 S:0
+	t0 = local int (v1)                                                *int
+	*t0 = v1
+	t1 = local int (v2)                                                *int
+	*t1 = v2
+	t2 = local int (v3)                                                *int
+	*t2 = v3
+	t3 = local string (s)                                           *string
+	*t3 = s
+	return nil:error, nil:error, nil:error
+
+# Name: example.foo
+# Package: example
+# Location: /home/hyunsoo/goanalyzer/example/project-example/main.go:28:6
+func foo() (myerr1 error, myerr2 error, myerr3 error):
+0:                                                                entry P:0 S:0
+	t0 = local error (myerr1)                                        *error
+	t1 = local error (myerr2)                                        *error
+	t2 = local error (myerr3)                                        *error
+	*t0 = nil:error
+	; var myerr1 error @ 29:2 is nil:error --> /home/hyunsoo/goanalyzer/example/project-example/main.go:29:2
+	*t1 = nil:error
+	; var myerr2 error @ 29:10 is nil:error --> /home/hyunsoo/goanalyzer/example/project-example/main.go:29:10
+	*t2 = nil:error
+	; var myerr3 error @ 29:18 is nil:error --> /home/hyunsoo/goanalyzer/example/project-example/main.go:29:18
+	t3 = *t0                                                          error
+	t4 = *t1                                                          error
+	t5 = *t2                                                          error
+	return t3, t4, t5
+
+# Name: example.interfaceFunc
+# Package: example
+# Location: /home/hyunsoo/goanalyzer/example/project-example/main.go:33:6
+func interfaceFunc(a interface{}):
+0:                                                                entry P:0 S:2
+	t0 = local interface{} (a)                                 *interface{}
+	*t0 = a
+	t1 = local int (v)                                                 *int
+	t2 = *t0                                                    interface{}
+	; var a interface{} @ 34:7 is t2 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:34:7
+	t3 = typeassert t2.(int)                                            int
+	; *ast.TypeAssertExpr @ 34:7 is t3 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:34:7
+	*t1 = t3
+	; var v int @ 34:2 is t3 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:34:2
+	; *ast.SelectorExpr @ 35:2 is Println --> /home/hyunsoo/goanalyzer/example/project-example/main.go:35:2
+	t4 = *t1                                                            int
+	; var v int @ 35:14 is t4 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:35:14
+	t5 = new [1]any (varargs)                                       *[1]any
+	t6 = &t5[0:int]                                                    *any
+	t7 = make any <- int (t4)                                           any
+	*t6 = t7
+	t8 = slice t5[:]                                                  []any
+	t9 = fmt.Println(t8...)                              (n int, err error)
+	; *ast.CallExpr @ 35:2 is t9 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:35:2
+	t10 = *t0                                                   interface{}
+	; var a interface{} @ 36:9 is t10 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:36:9
+	t11 = typeassert,ok t10.(int)                      (value int, ok bool)
+	t12 = extract t11 #0                                                int
+	t13 = extract t11 #1                                               bool
+	if t13 goto 2 else 3
+	; [if loc]: if t13 goto 2 else 3 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:37:7
+1:                                                      typeswitch.done P:4 S:0
+	return
+2:                                                      typeswitch.body P:1 S:1
+	; *ast.SelectorExpr @ 38:3 is Println --> /home/hyunsoo/goanalyzer/example/project-example/main.go:38:3
+	t14 = new [1]any (varargs)                                      *[1]any
+	t15 = &t14[0:int]                                                  *any
+	t16 = make any <- string ("int!":string)                            any
+	*t15 = t16
+	t17 = slice t14[:]                                                []any
+	t18 = fmt.Println(t17...)                            (n int, err error)
+	; *ast.CallExpr @ 38:3 is t18 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:38:3
+	jump 1
+3:                                                      typeswitch.next P:1 S:2
+	t19 = typeassert,ok t10.(float32)              (value float32, ok bool)
+	t20 = extract t19 #0                                            float32
+	t21 = extract t19 #1                                               bool
+	if t21 goto 4 else 5
+	; [if loc]: if t21 goto 4 else 5 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:39:7
+4:                                                      typeswitch.body P:1 S:1
+	; *ast.SelectorExpr @ 40:3 is Println --> /home/hyunsoo/goanalyzer/example/project-example/main.go:40:3
+	t22 = new [1]any (varargs)                                      *[1]any
+	t23 = &t22[0:int]                                                  *any
+	t24 = make any <- string ("float!":string)                          any
+	*t23 = t24
+	t25 = slice t22[:]                                                []any
+	t26 = fmt.Println(t25...)                            (n int, err error)
+	; *ast.CallExpr @ 40:3 is t26 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:40:3
+	jump 1
+5:                                                      typeswitch.next P:1 S:2
+	t27 = typeassert,ok t10.(string)                (value string, ok bool)
+	t28 = extract t27 #0                                             string
+	t29 = extract t27 #1                                               bool
+	if t29 goto 6 else 1
+	; [if loc]: if t29 goto 6 else 1 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:41:7
+6:                                                      typeswitch.body P:1 S:1
+	; *ast.SelectorExpr @ 42:3 is Println --> /home/hyunsoo/goanalyzer/example/project-example/main.go:42:3
+	t30 = new [1]any (varargs)                                      *[1]any
+	t31 = &t30[0:int]                                                  *any
+	t32 = make any <- string ("string!":string)                         any
+	*t31 = t32
+	t33 = slice t30[:]                                                []any
+	t34 = fmt.Println(t33...)                            (n int, err error)
+	; *ast.CallExpr @ 42:3 is t34 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:42:3
+	jump 1
+
+# Name: example.main$1
+# Package: example
+# Location: /home/hyunsoo/goanalyzer/example/project-example/main.go:112:7
+# Parent: main
+func main$1() int:
+0:                                                                entry P:0 S:0
+	return 123:int
+
+# Name: example.main
+# Package: example
+# Location: /home/hyunsoo/goanalyzer/example/project-example/main.go:46:6
+func main():
+0:                                                                entry P:0 S:1
+	t0 = local example/anotherpackage.ABC (abc) *example/anotherpackage.ABC
+	; address of var abc example/anotherpackage.ABC @ 47:2 is t0 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:47:2
+	; address of *ast.CompositeLit @ 47:9 is t0 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:47:9
+	t1 = local *example/anotherpackage.ABC (abc2) **example/anotherpackage.ABC
+	t2 = new example/anotherpackage.ABC (complit) *example/anotherpackage.ABC
+	; address of *ast.CompositeLit @ 48:11 is t2 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:48:11
+	; *ast.UnaryExpr @ 48:10 is t2 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:48:10
+	*t1 = t2
+	; var abc2 *example/anotherpackage.ABC @ 48:2 is t2 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:48:2
+	t3 = *t0                                     example/anotherpackage.ABC
+	; var abc example/anotherpackage.ABC @ 49:2 is t3 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:49:2
+	t4 = (example/anotherpackage.ABC).Hi(t3)                         string
+	; *ast.CallExpr @ 49:2 is t4 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:49:2
+	t5 = *t1                                    *example/anotherpackage.ABC
+	; var abc2 *example/anotherpackage.ABC @ 50:2 is t5 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:50:2
+	t6 = (*example/anotherpackage.ABC).Hi2(t5)                       string
+	; *ast.CallExpr @ 50:2 is t6 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:50:2
+	t7 = local example/mypack.ABC (abcabc)              *example/mypack.ABC
+	; address of var abcabc example/mypack.ABC @ 52:2 is t7 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:52:2
+	; address of *ast.CompositeLit @ 52:12 is t7 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:52:12
+	t8 = local *example/mypack.ABC (abcabc2)           **example/mypack.ABC
+	t9 = new example/mypack.ABC (complit)               *example/mypack.ABC
+	; address of *ast.CompositeLit @ 53:14 is t9 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:53:14
+	; *ast.UnaryExpr @ 53:13 is t9 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:53:13
+	*t8 = t9
+	; var abcabc2 *example/mypack.ABC @ 53:2 is t9 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:53:2
+	t10 = *t7                                            example/mypack.ABC
+	; var abcabc example/mypack.ABC @ 54:2 is t10 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:54:2
+	t11 = (example/mypack.ABC).Hi(t10)                               string
+	; *ast.CallExpr @ 54:2 is t11 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:54:2
+	t12 = *t8                                           *example/mypack.ABC
+	; var abcabc2 *example/mypack.ABC @ 55:2 is t12 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:55:2
+	t13 = *t12                                           example/mypack.ABC
+	t14 = (example/mypack.ABC).Hi(t13)                               string
+	; *ast.CallExpr @ 55:2 is t14 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:55:2
+	t15 = local int (myidx)                                            *int
+	*t15 = 0:int
+	; var myidx int @ 57:6 is 0:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:57:6
+	jump 3
+1:                                                             for.body P:1 S:2
+	; *ast.SelectorExpr @ 58:3 is Println --> /home/hyunsoo/goanalyzer/example/project-example/main.go:58:3
+	t16 = new [1]any (varargs)                                      *[1]any
+	t17 = &t16[0:int]                                                  *any
+	t18 = make any <- string ("HELLO":string)                           any
+	*t17 = t18
+	t19 = slice t16[:]                                                []any
+	t20 = fmt.Println(t19...)                            (n int, err error)
+	; *ast.CallExpr @ 58:3 is t20 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:58:3
+	t21 = *t15                                                          int
+	; var myidx int @ 59:6 is t21 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:59:6
+	t22 = t21 == 2:int                                                 bool
+	; *ast.BinaryExpr @ 59:6 is t22 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:59:6
+	if t22 goto 4 else 5
+	; [if loc]: if t22 goto 4 else 5 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:59:6
+2:                                                             for.done P:1 S:2
+	t23 = local int (e)                                                *int
+	*t23 = 55:int
+	; var e int @ 63:2 is 55:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:63:2
+	t24 = *t23                                                          int
+	t25 = t24 + 1:int                                                   int
+	*t23 = t25
+	; var e int @ 64:2 is t25 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:64:2
+	t26 = local error (b)                                            *error
+	t27 = local error (c)                                            *error
+	t28 = foo()                  (myerr1 error, myerr2 error, myerr3 error)
+	; *ast.CallExpr @ 65:13 is t28 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:65:13
+	t29 = extract t28 #0                                              error
+	t30 = extract t28 #1                                              error
+	*t26 = t30
+	; var b error @ 65:5 is t30 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:65:5
+	t31 = extract t28 #2                                              error
+	*t27 = t31
+	; var c error @ 65:8 is t31 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:65:8
+	t32 = new *A (mystruct)                                             **A
+	t33 = new A (complit)                                                *A
+	; address of *ast.CompositeLit @ 66:15 is t33 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:66:15
+	; *ast.UnaryExpr @ 66:14 is t33 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:66:14
+	*t32 = t33
+	; var mystruct *example.A @ 66:2 is t33 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:66:2
+	t34 = new **A (ptr1)                                               ***A
+	; address of var mystruct *example.A @ 67:11 is t32 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:67:11
+	; *ast.UnaryExpr @ 67:10 is t32 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:67:10
+	*t34 = t32
+	; var ptr1 **example.A @ 67:2 is t32 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:67:2
+	t35 = new ***A (ptr2)                                             ****A
+	; address of var ptr1 **example.A @ 68:11 is t34 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:68:11
+	; *ast.UnaryExpr @ 68:10 is t34 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:68:10
+	*t35 = t34
+	; var ptr2 ***example.A @ 68:2 is t34 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:68:2
+	t36 = local ****A (ptr3)                                         *****A
+	; address of var ptr2 ***example.A @ 69:11 is t35 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:69:11
+	; *ast.UnaryExpr @ 69:10 is t35 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:69:10
+	*t36 = t35
+	; var ptr3 ****example.A @ 69:2 is t35 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:69:2
+	t37 = local A (mystruct2)                                            *A
+	; address of var mystruct2 example.A @ 70:2 is t37 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:70:2
+	; address of *ast.CompositeLit @ 70:15 is t37 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:70:15
+	t38 = local int (ret)                                              *int
+	t39 = *t32                                                           *A
+	; var mystruct *example.A @ 71:9 is t39 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:71:9
+	t40 = (*A).foo(t39, 1:int, 2:int, 3:int, "hello":string)            int
+	; *ast.CallExpr @ 71:9 is t40 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:71:9
+	*t38 = t40
+	; var ret int @ 71:2 is t40 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:71:2
+	; *ast.SelectorExpr @ 72:2 is Println --> /home/hyunsoo/goanalyzer/example/project-example/main.go:72:2
+	t41 = *t26                                                        error
+	; var b error @ 72:14 is t41 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:72:14
+	t42 = *t27                                                        error
+	; var c error @ 72:17 is t42 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:72:17
+	t43 = *t23                                                          int
+	; var e int @ 72:20 is t43 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:72:20
+	t44 = *t38                                                          int
+	; var ret int @ 72:23 is t44 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:72:23
+	t45 = *t37                                                            A
+	; var mystruct2 example.A @ 72:28 is t45 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:72:28
+	t46 = *t7                                            example/mypack.ABC
+	; var abcabc example/mypack.ABC @ 72:48 is t46 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:72:48
+	t47 = (A).bar(t45, 1:int, 2:int, t46)                               int
+	; *ast.CallExpr @ 72:28 is t47 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:72:28
+	t48 = new [5]any (varargs)                                      *[5]any
+	t49 = &t48[0:int]                                                  *any
+	t50 = change interface any <- error (t41)                           any
+	*t49 = t50
+	t51 = &t48[1:int]                                                  *any
+	t52 = change interface any <- error (t42)                           any
+	*t51 = t52
+	t53 = &t48[2:int]                                                  *any
+	t54 = make any <- int (t43)                                         any
+	*t53 = t54
+	t55 = &t48[3:int]                                                  *any
+	t56 = make any <- int (t44)                                         any
+	*t55 = t56
+	t57 = &t48[4:int]                                                  *any
+	t58 = make any <- int (t47)                                         any
+	*t57 = t58
+	t59 = slice t48[:]                                                []any
+	t60 = fmt.Println(t59...)                            (n int, err error)
+	; *ast.CallExpr @ 72:2 is t60 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:72:2
+	t61 = local *A (d)                                                  **A
+	t62 = *t36                                                        ****A
+	; var ptr3 ****example.A @ 73:10 is t62 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:73:10
+	t63 = *t62                                                         ***A
+	; *ast.StarExpr @ 73:9 is t63 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:73:9
+	t64 = *t63                                                          **A
+	; *ast.StarExpr @ 73:8 is t64 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:73:8
+	t65 = *t64                                                           *A
+	; *ast.StarExpr @ 73:7 is t65 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:73:7
+	*t61 = t65
+	; var d *example.A @ 73:2 is t65 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:73:2
+	t66 = local error (r1)                                           *error
+	t67 = local error (r2)                                           *error
+	t68 = local error (r3)                                           *error
+	t69 = bar(1:int, 2:int, 3:int, "hello":string)    (error, error, error)
+	; *ast.CallExpr @ 74:16 is t69 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:74:16
+	t70 = extract t69 #0                                              error
+	*t66 = t70
+	; var r1 error @ 74:2 is t70 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:74:2
+	t71 = extract t69 #1                                              error
+	*t67 = t71
+	; var r2 error @ 74:6 is t71 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:74:6
+	t72 = extract t69 #2                                              error
+	*t68 = t72
+	; var r3 error @ 74:10 is t72 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:74:10
+	t73 = *t37                                                            A
+	; var mystruct2 example.A @ 75:2 is t73 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:75:2
+	t74 = (A).baz(t73, 1:int, 2:int)                                     ()
+	; *ast.CallExpr @ 75:2 is t74 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:75:2
+	; *ast.SelectorExpr @ 76:2 is Println --> /home/hyunsoo/goanalyzer/example/project-example/main.go:76:2
+	t75 = *t61                                                           *A
+	; var d *example.A @ 76:14 is t75 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:76:14
+	t76 = *t66                                                        error
+	; var r1 error @ 76:17 is t76 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:76:17
+	t77 = *t67                                                        error
+	; var r2 error @ 76:21 is t77 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:76:21
+	t78 = *t68                                                        error
+	; var r3 error @ 76:25 is t78 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:76:25
+	t79 = new [4]any (varargs)                                      *[4]any
+	t80 = &t79[0:int]                                                  *any
+	t81 = make any <- *A (t75)                                          any
+	*t80 = t81
+	t82 = &t79[1:int]                                                  *any
+	t83 = change interface any <- error (t76)                           any
+	*t82 = t83
+	t84 = &t79[2:int]                                                  *any
+	t85 = change interface any <- error (t77)                           any
+	*t84 = t85
+	t86 = &t79[3:int]                                                  *any
+	t87 = change interface any <- error (t78)                           any
+	*t86 = t87
+	t88 = slice t79[:]                                                []any
+	t89 = fmt.Println(t88...)                            (n int, err error)
+	; *ast.CallExpr @ 76:2 is t89 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:76:2
+	t90 = local []int (litarr)                                       *[]int
+	; address of var litarr []int @ 78:2 is t90 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:78:2
+	t91 = new [3]int (slicelit)                                     *[3]int
+	t92 = &t91[0:int]                                                  *int
+	*t92 = 1:int
+	; *ast.BasicLit @ 78:18 is 1:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:78:18
+	t93 = &t91[1:int]                                                  *int
+	*t93 = 2:int
+	; *ast.BasicLit @ 78:21 is 2:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:78:21
+	t94 = &t91[2:int]                                                  *int
+	*t94 = 3:int
+	; *ast.BasicLit @ 78:24 is 3:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:78:24
+	t95 = slice t91[:]                                                []int
+	*t90 = t95
+	; *ast.CompositeLit @ 78:12 is t95 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:78:12
+	t96 = local []int (arr2)                                         *[]int
+	; address of var arr2 []int @ 79:6 is t96 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:79:6
+	t97 = local []int (arr)                                          *[]int
+	; address of var arr []int @ 80:2 is t97 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:80:2
+	t98 = new [5]int (slicelit)                                     *[5]int
+	t99 = &t98[0:int]                                                  *int
+	*t99 = 1:int
+	; *ast.BasicLit @ 80:15 is 1:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:80:15
+	t100 = &t98[1:int]                                                 *int
+	*t100 = 2:int
+	; *ast.BasicLit @ 80:18 is 2:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:80:18
+	t101 = &t98[2:int]                                                 *int
+	*t101 = 3:int
+	; *ast.BasicLit @ 80:21 is 3:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:80:21
+	t102 = &t98[3:int]                                                 *int
+	*t102 = 4:int
+	; *ast.BasicLit @ 80:24 is 4:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:80:24
+	t103 = &t98[4:int]                                                 *int
+	*t103 = 5:int
+	; *ast.BasicLit @ 80:27 is 5:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:80:27
+	t104 = slice t98[:]                                               []int
+	*t97 = t104
+	; *ast.CompositeLit @ 80:9 is t104 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:80:9
+	t105 = *t97                                                       []int
+	; var arr []int @ 81:2 is t105 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:81:2
+	t106 = &t105[3:int]                                                *int
+	*t106 = 123:int
+	; *ast.IndexExpr @ 81:2 is 123:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:81:2
+	t107 = *t96                                                       []int
+	; var arr2 []int @ 82:16 is t107 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:82:16
+	t108 = new [1]int (varargs)                                     *[1]int
+	t109 = &t108[0:int]                                                *int
+	*t109 = 1:int
+	t110 = slice t108[:]                                              []int
+	t111 = append(t107, t110...)                                      []int
+	; *ast.CallExpr @ 82:9 is t111 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:82:9
+	*t96 = t111
+	; var arr2 []int @ 82:2 is t111 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:82:2
+	t112 = local int (idx)                                             *int
+	*t112 = 3:int
+	; var idx int @ 83:2 is 3:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:83:2
+	t113 = *t112                                                        int
+	; var idx int @ 84:5 is t113 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:84:5
+	t114 = t113 == 1:int                                               bool
+	; *ast.BinaryExpr @ 84:5 is t114 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:84:5
+	if t114 goto 6 else 8
+	; [if loc]: if t114 goto 6 else 8 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:84:5
+3:                                                             for.loop P:2 S:2
+	t115 = *t15                                                         int
+	; var myidx int @ 57:18 is t115 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:57:18
+	t116 = t115 < 5:int                                                bool
+	; *ast.BinaryExpr @ 57:18 is t116 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:57:18
+	if t116 goto 1 else 2
+	; [if loc]: if t116 goto 1 else 2 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:57:18
+4:                                                              if.then P:1 S:1
+	; *ast.SelectorExpr @ 60:4 is Println --> /home/hyunsoo/goanalyzer/example/project-example/main.go:60:4
+	t117 = new [1]any (varargs)                                     *[1]any
+	t118 = &t117[0:int]                                                *any
+	t119 = make any <- string ("myidx == 2":string)                     any
+	*t118 = t119
+	t120 = slice t117[:]                                              []any
+	t121 = fmt.Println(t120...)                          (n int, err error)
+	; *ast.CallExpr @ 60:4 is t121 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:60:4
+	jump 5
+5:                                                              if.done P:2 S:1
+	t122 = *t15                                                         int
+	t123 = t122 + 1:int                                                 int
+	*t15 = t123
+	; var myidx int @ 57:29 is t123 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:57:29
+	jump 3
+6:                                                              if.then P:1 S:1
+	; *ast.SelectorExpr @ 85:3 is Println --> /home/hyunsoo/goanalyzer/example/project-example/main.go:85:3
+	t124 = *t97                                                       []int
+	; var arr []int @ 85:15 is t124 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:85:15
+	t125 = *t97                                                       []int
+	; var arr []int @ 85:20 is t125 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:85:20
+	t126 = *t112                                                        int
+	; var idx int @ 85:24 is t126 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:85:24
+	t127 = &t125[t126]                                                 *int
+	t128 = *t127                                                        int
+	; *ast.IndexExpr @ 85:20 is t128 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:85:20
+	t129 = new [2]any (varargs)                                     *[2]any
+	t130 = &t129[0:int]                                                *any
+	t131 = make any <- []int (t124)                                     any
+	*t130 = t131
+	t132 = &t129[1:int]                                                *any
+	t133 = make any <- int (t128)                                       any
+	*t132 = t133
+	t134 = slice t129[:]                                              []any
+	t135 = fmt.Println(t134...)                          (n int, err error)
+	; *ast.CallExpr @ 85:3 is t135 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:85:3
+	jump 7
+7:                                                              if.done P:2 S:0
+	t136 = local chan bool (ch)                                  *chan bool
+	t137 = *t97                                                       []int
+	; var arr []int @ 89:24 is t137 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:89:24
+	t138 = &t137[3:int]                                                *int
+	t139 = *t138                                                        int
+	; *ast.IndexExpr @ 89:24 is t139 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:89:24
+	t140 = make chan bool t139                                    chan bool
+	; *ast.CallExpr @ 89:8 is t140 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:89:8
+	*t136 = t140
+	; var ch chan bool @ 89:2 is t140 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:89:2
+	t141 = *t136                                                  chan bool
+	; var ch chan bool @ 90:2 is t141 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:90:2
+	send t141 <- true:bool
+	t142 = *t136                                                  chan bool
+	; var ch chan bool @ 92:4 is t142 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:92:4
+	t143 = <-t142                                                      bool
+	; *ast.UnaryExpr @ 92:2 is t143 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:92:2
+	t144 = local interface{} (k)                               *interface{}
+	; address of var k interface{} @ 93:6 is t144 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:93:6
+	t145 = local any (kk)                                              *any
+	; address of var kk any @ 94:6 is t145 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:94:6
+	t146 = make interface{} <- int (1234:int)                   interface{}
+	*t144 = t146
+	; var k interface{} @ 95:2 is t146 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:95:2
+	t147 = make any <- int (1235:int)                                   any
+	*t145 = t147
+	; var kk any @ 96:2 is t147 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:96:2
+	t148 = local []int (arr3)                                        *[]int
+	t149 = *t97                                                       []int
+	; var arr []int @ 97:10 is t149 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:97:10
+	t150 = *t112                                                        int
+	; var idx int @ 97:14 is t150 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:97:14
+	t151 = t150 - 1:int                                                 int
+	; *ast.BinaryExpr @ 97:14 is t151 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:97:14
+	t152 = *t112                                                        int
+	; var idx int @ 97:22 is t152 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:97:22
+	t153 = t152 + 1:int                                                 int
+	; *ast.BinaryExpr @ 97:22 is t153 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:97:22
+	t154 = slice t149[t151:t153]                                      []int
+	; *ast.SliceExpr @ 97:10 is t154 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:97:10
+	*t148 = t154
+	; var arr3 []int @ 97:2 is t154 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:97:2
+	; *ast.SelectorExpr @ 98:2 is Println --> /home/hyunsoo/goanalyzer/example/project-example/main.go:98:2
+	t155 = *t144                                                interface{}
+	; var k interface{} @ 98:14 is t155 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:98:14
+	t156 = *t145                                                        any
+	; var kk any @ 98:17 is t156 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:98:17
+	t157 = *t148                                                      []int
+	; var arr3 []int @ 98:21 is t157 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:98:21
+	t158 = *t97                                                       []int
+	; var arr []int @ 98:27 is t158 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:98:27
+	t159 = *t112                                                        int
+	; var idx int @ 98:31 is t159 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:98:31
+	t160 = t159 - 1:int                                                 int
+	; *ast.BinaryExpr @ 98:31 is t160 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:98:31
+	t161 = *t112                                                        int
+	; var idx int @ 98:37 is t161 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:98:37
+	t162 = t161 + 1:int                                                 int
+	; *ast.BinaryExpr @ 98:37 is t162 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:98:37
+	t163 = slice t158[t160:t162]                                      []int
+	; *ast.SliceExpr @ 98:27 is t163 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:98:27
+	t164 = new [4]any (varargs)                                     *[4]any
+	t165 = &t164[0:int]                                                *any
+	*t165 = t155
+	t166 = &t164[1:int]                                                *any
+	*t166 = t156
+	t167 = &t164[2:int]                                                *any
+	t168 = make any <- []int (t157)                                     any
+	*t167 = t168
+	t169 = &t164[3:int]                                                *any
+	t170 = make any <- []int (t163)                                     any
+	*t169 = t170
+	t171 = slice t164[:]                                              []any
+	t172 = fmt.Println(t171...)                          (n int, err error)
+	; *ast.CallExpr @ 98:2 is t172 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:98:2
+	t173 = local [5][2]int (nArr)                                *[5][2]int
+	; address of var nArr [5][2]int @ 99:2 is t173 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:2
+	t174 = &t173[0:int]                                             *[2]int
+	; address of *ast.CompositeLit @ 99:20 is t174 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:20
+	t175 = &t174[0:int]                                                *int
+	t176 = &t174[1:int]                                                *int
+	; address of *ast.CompositeLit @ 99:20 is t174 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:20
+	t177 = &t173[1:int]                                             *[2]int
+	; address of *ast.CompositeLit @ 99:28 is t177 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:28
+	t178 = &t177[0:int]                                                *int
+	t179 = &t177[1:int]                                                *int
+	; address of *ast.CompositeLit @ 99:28 is t177 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:28
+	t180 = &t173[2:int]                                             *[2]int
+	; address of *ast.CompositeLit @ 99:36 is t180 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:36
+	t181 = &t180[0:int]                                                *int
+	t182 = &t180[1:int]                                                *int
+	; address of *ast.CompositeLit @ 99:36 is t180 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:36
+	t183 = &t173[3:int]                                             *[2]int
+	; address of *ast.CompositeLit @ 99:44 is t183 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:44
+	t184 = &t183[0:int]                                                *int
+	t185 = &t183[1:int]                                                *int
+	; address of *ast.CompositeLit @ 99:44 is t183 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:44
+	t186 = &t173[4:int]                                             *[2]int
+	; address of *ast.CompositeLit @ 99:52 is t186 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:52
+	t187 = &t186[0:int]                                                *int
+	t188 = &t186[1:int]                                                *int
+	; address of *ast.CompositeLit @ 99:52 is t186 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:52
+	; address of *ast.CompositeLit @ 99:10 is t173 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:10
+	*t175 = 0:int
+	; *ast.BasicLit @ 99:21 is 0:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:21
+	*t176 = 0:int
+	; *ast.BasicLit @ 99:24 is 0:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:24
+	*t178 = 1:int
+	; *ast.BasicLit @ 99:29 is 1:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:29
+	*t179 = 2:int
+	; *ast.BasicLit @ 99:32 is 2:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:32
+	*t181 = 2:int
+	; *ast.BasicLit @ 99:37 is 2:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:37
+	*t182 = 4:int
+	; *ast.BasicLit @ 99:40 is 4:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:40
+	*t184 = 3:int
+	; *ast.BasicLit @ 99:45 is 3:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:45
+	*t185 = 6:int
+	; *ast.BasicLit @ 99:48 is 6:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:48
+	*t187 = 4:int
+	; *ast.BasicLit @ 99:53 is 4:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:53
+	*t188 = 8:int
+	; *ast.BasicLit @ 99:56 is 8:int --> /home/hyunsoo/goanalyzer/example/project-example/main.go:99:56
+	; *ast.SelectorExpr @ 100:2 is Println --> /home/hyunsoo/goanalyzer/example/project-example/main.go:100:2
+	t189 = *t173                                                  [5][2]int
+	; var nArr [5][2]int @ 100:14 is t189 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:100:14
+	t190 = *t90                                                       []int
+	; var litarr []int @ 100:20 is t190 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:100:20
+	t191 = new [2]any (varargs)                                     *[2]any
+	t192 = &t191[0:int]                                                *any
+	t193 = make any <- [5][2]int (t189)                                 any
+	*t192 = t193
+	t194 = &t191[1:int]                                                *any
+	t195 = make any <- []int (t190)                                     any
+	*t194 = t195
+	t196 = slice t191[:]                                              []any
+	t197 = fmt.Println(t196...)                          (n int, err error)
+	; *ast.CallExpr @ 100:2 is t197 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:100:2
+	; *ast.SelectorExpr @ 101:2 is Myfunc --> /home/hyunsoo/goanalyzer/example/project-example/main.go:101:2
+	t198 = example/anotherpackage.Myfunc()                           string
+	; *ast.CallExpr @ 101:2 is t198 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:101:2
+	t199 = make interface{} <- float64 (3.14:float64)           interface{}
+	t200 = interfaceFunc(t199)                                           ()
+	; *ast.CallExpr @ 102:2 is t200 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:102:2
+	t201 = local error (err)                                         *error
+	; *ast.SelectorExpr @ 103:9 is Errorf --> /home/hyunsoo/goanalyzer/example/project-example/main.go:103:9
+	t202 = fmt.Errorf("my error":string, nil:[]any...)                error
+	; *ast.CallExpr @ 103:9 is t202 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:103:9
+	*t201 = t202
+	; var err error @ 103:2 is t202 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:103:2
+	t203 = *t201                                                      error
+	; var err error @ 104:7 is t203 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:104:7
+	t204 = change interface any <- error (t203)                         any
+	*t145 = t204
+	; var kk any @ 104:2 is t204 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:104:2
+	t205 = local []any (anySlice)                                    *[]any
+	; address of var anySlice []any @ 106:6 is t205 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:106:6
+	t206 = *t205                                                      []any
+	; var anySlice []any @ 107:2 is t206 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:107:2
+	t207 = &t206[0:int]                                                *any
+	t208 = make any <- int (123:int)                                    any
+	*t207 = t208
+	; *ast.IndexExpr @ 107:2 is t208 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:107:2
+	t209 = local [3]any (anyArr)                                    *[3]any
+	; address of var anyArr [3]any @ 109:6 is t209 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:109:6
+	; address of var anyArr [3]any @ 110:2 is t209 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:110:2
+	t210 = &t209[0:int]                                                *any
+	t211 = make any <- int (123:int)                                    any
+	*t210 = t211
+	; *ast.IndexExpr @ 110:2 is t211 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:110:2
+	t212 = local func() int (a)                                 *func() int
+	; *ast.FuncLit @ 112:7 is main$1 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:112:7
+	*t212 = main$1
+	; var a func() int @ 112:2 is main$1 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:112:2
+	t213 = *t212                                                 func() int
+	; var a func() int @ 115:6 is t213 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:115:6
+	t214 = t213()                                                       int
+	; *ast.CallExpr @ 115:6 is t214 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:115:6
+	return
+8:                                                              if.else P:1 S:1
+	; *ast.SelectorExpr @ 87:3 is Println --> /home/hyunsoo/goanalyzer/example/project-example/main.go:87:3
+	t215 = *t97                                                       []int
+	; var arr []int @ 87:15 is t215 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:87:15
+	t216 = *t97                                                       []int
+	; var arr []int @ 87:20 is t216 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:87:20
+	t217 = *t112                                                        int
+	; var idx int @ 87:24 is t217 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:87:24
+	t218 = &t216[t217]                                                 *int
+	t219 = *t218                                                        int
+	; *ast.IndexExpr @ 87:20 is t219 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:87:20
+	t220 = new [2]any (varargs)                                     *[2]any
+	t221 = &t220[0:int]                                                *any
+	t222 = make any <- []int (t215)                                     any
+	*t221 = t222
+	t223 = &t220[1:int]                                                *any
+	t224 = make any <- int (t219)                                       any
+	*t223 = t224
+	t225 = slice t220[:]                                              []any
+	t226 = fmt.Println(t225...)                          (n int, err error)
+	; *ast.CallExpr @ 87:3 is t226 --> /home/hyunsoo/goanalyzer/example/project-example/main.go:87:3
+	jump 7
+
+# Name: example/anotherpackage.init
+# Package: example/anotherpackage
+# Synthetic: package initializer
+func init():
+0:                                                                entry P:0 S:2
+	t0 = *init$guard                                                   bool
+	if t0 goto 2 else 1
+	; [if loc]: if t0 goto 2 else 1 --> -
+1:                                                           init.start P:1 S:1
+	*init$guard = true:bool
+	t1 = fmt.init()                                                      ()
+	t2 = example/mypack.init()                                           ()
+	jump 2
+2:                                                            init.done P:2 S:0
+	return
+
+# Name: (example/anotherpackage.ABC).Hi
+# Package: example/anotherpackage
+# Location: /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:11:16
+func (abc ABC) Hi() string:
+0:                                                                entry P:0 S:0
+	t0 = local ABC (abc)                                               *ABC
+	*t0 = abc
+	t1 = local example/mypack.ABC (abcabc)              *example/mypack.ABC
+	; address of var abcabc example/mypack.ABC @ 12:2 is t1 --> /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:12:2
+	; address of *ast.CompositeLit @ 12:12 is t1 --> /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:12:12
+	t2 = *t1                                             example/mypack.ABC
+	; var abcabc example/mypack.ABC @ 13:2 is t2 --> /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:13:2
+	t3 = (example/mypack.ABC).Hi(t2)                                 string
+	; *ast.CallExpr @ 13:2 is t3 --> /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:13:2
+	t4 = local int (sum)                                               *int
+	; *ast.SelectorExpr @ 14:9 is GetSum --> /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:14:9
+	t5 = example/mypack.GetSum()                                        int
+	; *ast.CallExpr @ 14:9 is t5 --> /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:14:9
+	*t4 = t5
+	; var sum int @ 14:2 is t5 --> /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:14:2
+	; *ast.SelectorExpr @ 15:2 is Println --> /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:15:2
+	t6 = *t4                                                            int
+	; var sum int @ 15:14 is t6 --> /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:15:14
+	t7 = new [1]any (varargs)                                       *[1]any
+	t8 = &t7[0:int]                                                    *any
+	t9 = make any <- int (t6)                                           any
+	*t8 = t9
+	t10 = slice t7[:]                                                 []any
+	t11 = fmt.Println(t10...)                            (n int, err error)
+	; *ast.CallExpr @ 15:2 is t11 --> /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:15:2
+	return "hello":string
+
+# Name: (*example/anotherpackage.ABC).Hi2
+# Package: example/anotherpackage
+# Location: /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:19:17
+func (abc *ABC) Hi2() string:
+0:                                                                entry P:0 S:0
+	t0 = local *ABC (abc)                                             **ABC
+	*t0 = abc
+	return "hello":string
+
+# Name: example/anotherpackage.Myfunc$1
+# Package: example/anotherpackage
+# Location: /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:24:8
+# Parent: Myfunc
+func Myfunc$1():
+0:                                                                entry P:0 S:0
+	; *ast.SelectorExpr @ 25:3 is Println --> /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:25:3
+	t0 = new [1]any (varargs)                                       *[1]any
+	t1 = &t0[0:int]                                                    *any
+	t2 = make any <- string ("DEFER!":string)                           any
+	*t1 = t2
+	t3 = slice t0[:]                                                  []any
+	t4 = fmt.Println(t3...)                              (n int, err error)
+	; *ast.CallExpr @ 25:3 is t4 --> /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:25:3
+	return
+
+# Name: example/anotherpackage.Myfunc
+# Package: example/anotherpackage
+# Location: /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:23:6
+# Recover: 1
+func Myfunc() string:
+0:                                                                entry P:0 S:0
+	; *ast.FuncLit @ 24:8 is Myfunc$1 --> /home/hyunsoo/goanalyzer/example/project-example/anotherpackage/anotherpackage.go:24:8
+	defer Myfunc$1()
+	return "hello":string
+1:                                                              recover P:0 S:0
+	return "":string
+
+# Name: example/mypack.init
+# Package: example/mypack
+# Synthetic: package initializer
+func init():
+0:                                                                entry P:0 S:2
+	t0 = *init$guard                                                   bool
+	if t0 goto 2 else 1
+	; [if loc]: if t0 goto 2 else 1 --> -
+1:                                                           init.start P:1 S:1
+	*init$guard = true:bool
+	t1 = fmt.init()                                                      ()
+	t2 = log.init()                                                      ()
+	t3 = net/http.init()                                                 ()
+	t4 = unsafe.init()                                                   ()
+	*ASD = 22:uint8
+	jump 2
+2:                                                            init.done P:2 S:0
+	return
+
+# Name: example/mypack.measure
+# Package: example/mypack
+# Location: /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:20:6
+func measure(g geometry):
+0:                                                                entry P:0 S:0
+	t0 = local geometry (g)                                       *geometry
+	*t0 = g
+	; *ast.SelectorExpr @ 21:2 is Println --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:21:2
+	t1 = *t0                                                       geometry
+	; var g example/mypack.geometry @ 21:14 is t1 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:21:14
+	t2 = new [1]any (varargs)                                       *[1]any
+	t3 = &t2[0:int]                                                    *any
+	t4 = change interface any <- geometry (t1)                          any
+	*t3 = t4
+	t5 = slice t2[:]                                                  []any
+	t6 = fmt.Println(t5...)                              (n int, err error)
+	; *ast.CallExpr @ 21:2 is t6 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:21:2
+	; *ast.SelectorExpr @ 22:2 is Println --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:22:2
+	t7 = *t0                                                       geometry
+	; var g example/mypack.geometry @ 22:14 is t7 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:22:14
+	t8 = invoke t7.area()                                           float64
+	; *ast.CallExpr @ 22:14 is t8 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:22:14
+	t9 = new [1]any (varargs)                                       *[1]any
+	t10 = &t9[0:int]                                                   *any
+	t11 = make any <- float64 (t8)                                      any
+	*t10 = t11
+	t12 = slice t9[:]                                                 []any
+	t13 = fmt.Println(t12...)                            (n int, err error)
+	; *ast.CallExpr @ 22:2 is t13 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:22:2
+	; *ast.SelectorExpr @ 23:2 is Println --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:23:2
+	t14 = *t0                                                      geometry
+	; var g example/mypack.geometry @ 23:14 is t14 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:23:14
+	t15 = invoke t14.perim()                                        float64
+	; *ast.CallExpr @ 23:14 is t15 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:23:14
+	t16 = new [1]any (varargs)                                      *[1]any
+	t17 = &t16[0:int]                                                  *any
+	t18 = make any <- float64 (t15)                                     any
+	*t17 = t18
+	t19 = slice t16[:]                                                []any
+	t20 = fmt.Println(t19...)                            (n int, err error)
+	; *ast.CallExpr @ 23:2 is t20 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:23:2
+	return
+
+# Name: (example/mypack.rect).area
+# Package: example/mypack
+# Location: /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:39:15
+func (r rect) area() float64:
+0:                                                                entry P:0 S:0
+	t0 = local rect (r)                                               *rect
+	*t0 = r
+	; address of var r example/mypack.rect @ 40:9 is t0 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:40:9
+	t1 = &t0.width [#0]                                            *float64
+	; address of field width float64 @ 40:11 is t1 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:40:11
+	t2 = *t1                                                        float64
+	; *ast.SelectorExpr @ 40:9 is t2 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:40:9
+	; address of var r example/mypack.rect @ 40:19 is t0 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:40:19
+	t3 = &t0.height [#1]                                           *float64
+	; address of field height float64 @ 40:21 is t3 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:40:21
+	t4 = *t3                                                        float64
+	; *ast.SelectorExpr @ 40:19 is t4 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:40:19
+	t5 = t2 * t4                                                    float64
+	; *ast.BinaryExpr @ 40:9 is t5 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:40:9
+	return t5
+
+# Name: (example/mypack.rect).perim
+# Package: example/mypack
+# Location: /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:43:15
+func (r rect) perim() float64:
+0:                                                                entry P:0 S:0
+	t0 = local rect (r)                                               *rect
+	*t0 = r
+	; address of var r example/mypack.rect @ 44:11 is t0 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:44:11
+	t1 = &t0.width [#0]                                            *float64
+	; address of field width float64 @ 44:13 is t1 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:44:13
+	t2 = *t1                                                        float64
+	; *ast.SelectorExpr @ 44:11 is t2 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:44:11
+	t3 = 2:float64 * t2                                             float64
+	; *ast.BinaryExpr @ 44:9 is t3 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:44:9
+	; address of var r example/mypack.rect @ 44:23 is t0 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:44:23
+	t4 = &t0.height [#1]                                           *float64
+	; address of field height float64 @ 44:25 is t4 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:44:25
+	t5 = *t4                                                        float64
+	; *ast.SelectorExpr @ 44:23 is t5 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:44:23
+	t6 = 2:float64 * t5                                             float64
+	; *ast.BinaryExpr @ 44:21 is t6 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:44:21
+	t7 = t3 + t6                                                    float64
+	; *ast.BinaryExpr @ 44:9 is t7 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:44:9
+	return t7
+
+# Name: (example/mypack.ABC).Hi
+# Package: example/mypack
+# Location: /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:55:16
+func (abc ABC) Hi() string:
+0:                                                                entry P:0 S:0
+	t0 = local ABC (abc)                                               *ABC
+	*t0 = abc
+	return "hello":string
+
+# Name: (*example/mypack.ABC).Hi2
+# Package: example/mypack
+# Location: /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:59:17
+func (abc *ABC) Hi2() string:
+0:                                                                entry P:0 S:0
+	t0 = local *ABC (abc)                                             **ABC
+	*t0 = abc
+	return "hello":string
+
+# Name: example/mypack.myFunc
+# Package: example/mypack
+# Location: /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:63:6
+func myFunc(a int, b string) (float32, float64):
+0:                                                                entry P:0 S:0
+	t0 = local int (a)                                                 *int
+	*t0 = a
+	t1 = local string (b)                                           *string
+	*t1 = b
+	return 3.14:float32, 3.14:float64
+
+# Name: example/mypack.GetSum
+# Package: example/mypack
+# Location: /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:67:6
+func GetSum() int:
+0:                                                                entry P:0 S:1
+	t0 = local int (sum)                                               *int
+	*t0 = 0:int
+	; var sum int @ 68:2 is 0:int --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:68:2
+	t1 = local int (i)                                                 *int
+	*t1 = 0:int
+	; var i int @ 69:6 is 0:int --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:69:6
+	jump 3
+1:                                                             for.body P:1 S:1
+	t2 = *t1                                                            int
+	; var i int @ 70:10 is t2 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:70:10
+	t3 = *t0                                                            int
+	t4 = t3 + t2                                                        int
+	*t0 = t4
+	; var sum int @ 70:3 is t4 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:70:3
+	t5 = *t1                                                            int
+	t6 = t5 + 1:int                                                     int
+	*t1 = t6
+	; var i int @ 69:21 is t6 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:69:21
+	jump 3
+2:                                                             for.done P:1 S:0
+	t7 = *t0                                                            int
+	; var sum int @ 72:9 is t7 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:72:9
+	return t7
+3:                                                             for.loop P:2 S:2
+	t8 = *t1                                                            int
+	; var i int @ 69:14 is t8 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:69:14
+	t9 = t8 < 5:int                                                    bool
+	; *ast.BinaryExpr @ 69:14 is t9 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:69:14
+	if t9 goto 1 else 2
+	; [if loc]: if t9 goto 1 else 2 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:69:14
+
+# Name: example/mypack.types$1
+# Package: example/mypack
+# Location: /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:143:5
+# Parent: types
+func types$1():
+0:                                                                entry P:0 S:0
+	t0 = local string (a)                                           *string
+	*t0 = "hello":string
+	; var a string @ 144:3 is "hello":string --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:144:3
+	t1 = *t0                                                         string
+	; var a string @ 145:7 is t1 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:145:7
+	return
+
+# Name: example/mypack.types$2
+# Package: example/mypack
+# Location: /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:147:5
+# Parent: types
+func types$2():
+0:                                                                entry P:0 S:0
+	t0 = local string (a)                                           *string
+	*t0 = "hello":string
+	; var a string @ 148:3 is "hello":string --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:148:3
+	t1 = *t0                                                         string
+	; var a string @ 149:7 is t1 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:149:7
+	return
+
+# Name: example/mypack.types$3
+# Package: example/mypack
+# Location: /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:198:5
+# Parent: types
+# Free variables: [0:idx1 *int, 1:idx2 *int, 2:idx3 *int]
+func types$3() int:
+0:                                                                entry P:0 S:0
+	t0 = *idx1                                                          int
+	; var idx1 int @ 199:7 is t0 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:199:7
+	t1 = t0 + 1:int                                                     int
+	; *ast.BinaryExpr @ 199:7 is t1 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:199:7
+	t2 = *idx2                                                          int
+	; var idx2 int @ 200:7 is t2 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:200:7
+	t3 = t2 + 1:int                                                     int
+	; *ast.BinaryExpr @ 200:7 is t3 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:200:7
+	t4 = *idx3                                                          int
+	; var idx3 int @ 201:7 is t4 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:201:7
+	t5 = t4 + 1:int                                                     int
+	; *ast.BinaryExpr @ 201:7 is t5 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:201:7
+	t6 = *idx1                                                          int
+	; var idx1 int @ 202:10 is t6 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:202:10
+	t7 = *idx2                                                          int
+	; var idx2 int @ 202:17 is t7 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:202:17
+	t8 = t6 + t7                                                        int
+	; *ast.BinaryExpr @ 202:10 is t8 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:202:10
+	t9 = *idx3                                                          int
+	; var idx3 int @ 202:24 is t9 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:202:24
+	t10 = t8 + t9                                                       int
+	; *ast.BinaryExpr @ 202:10 is t10 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:202:10
+	return t10
+
+# Name: example/mypack.types
+# Package: example/mypack
+# Location: /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:75:6
+func types():
+0:                                                                entry P:0 S:1
+	t0 = local int8 (a)                                               *int8
+	*t0 = 3:int8
+	; var a int8 @ 76:2 is 3:int8 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:76:2
+	t1 = local int16 (b)                                             *int16
+	*t1 = 3:int16
+	; var b int16 @ 77:2 is 3:int16 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:77:2
+	t2 = local int32 (c)                                             *int32
+	*t2 = 3:int32
+	; var c int32 @ 78:2 is 3:int32 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:78:2
+	t3 = local int64 (d)                                             *int64
+	*t3 = 3:int64
+	; var d int64 @ 79:2 is 3:int64 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:79:2
+	t4 = local uint (aa)                                              *uint
+	*t4 = 3:uint
+	; var aa uint @ 81:2 is 3:uint --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:81:2
+	t5 = local uint8 (bb)                                            *uint8
+	*t5 = 3:uint8
+	; var bb uint8 @ 82:2 is 3:uint8 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:82:2
+	t6 = local uint16 (cc)                                          *uint16
+	*t6 = 3:uint16
+	; var cc uint16 @ 83:2 is 3:uint16 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:83:2
+	t7 = local uint32 (dd)                                          *uint32
+	*t7 = 3:uint32
+	; var dd uint32 @ 84:2 is 3:uint32 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:84:2
+	t8 = local uint64 (ee)                                          *uint64
+	*t8 = 3:uint64
+	; var ee uint64 @ 85:2 is 3:uint64 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:85:2
+	t9 = local byte (_b)                                              *byte
+	t10 = local rune (r)                                              *rune
+	*t9 = 123:byte
+	; var _b byte @ 87:2 is 123:byte --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:87:2
+	*t10 = 54620:rune
+	; var r rune @ 87:6 is 54620:rune --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:87:6
+	t11 = local []byte (byteArr)                                    *[]byte
+	t12 = convert []byte <- string ("this is byte array":string)     []byte
+	; *ast.CallExpr @ 89:13 is t12 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:89:13
+	*t11 = t12
+	; var byteArr []byte @ 89:2 is t12 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:89:2
+	t13 = local []rune (runeArr)                                    *[]rune
+	t14 = convert []rune <- string ("한글":string)                 []rune
+	; *ast.CallExpr @ 90:13 is t14 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:90:13
+	*t13 = t14
+	; var runeArr []rune @ 90:2 is t14 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:90:2
+	t15 = *t0                                                          int8
+	; var a int8 @ 91:11 is t15 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:91:11
+	t16 = convert uint <- int8 (t15)                                   uint
+	; *ast.CallExpr @ 91:6 is t16 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:91:6
+	t17 = local complex128 (ca)                                 *complex128
+	*t17 = (1 + 2i):complex128
+	; var ca complex128 @ 93:2 is (1 + 2i):complex128 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:93:2
+	t18 = local complex128 (cb)                                 *complex128
+	*t18 = (1 + 2i):complex128
+	; var cb complex128 @ 94:2 is (1 + 2i):complex128 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:94:2
+	t19 = local complex128 (ccc)                                *complex128
+	*t19 = (-1 + 2i):complex128
+	; var ccc complex128 @ 95:2 is (-1 + 2i):complex128 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:95:2
+	; *ast.SelectorExpr @ 96:2 is Println --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:96:2
+	t20 = *t17                                                   complex128
+	; var ca complex128 @ 96:19 is t20 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:96:19
+	t21 = imag(t20)                                                 float64
+	; *ast.CallExpr @ 96:14 is t21 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:96:14
+	t22 = *t17                                                   complex128
+	; var ca complex128 @ 96:29 is t22 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:96:29
+	t23 = real(t22)                                                 float64
+	; *ast.CallExpr @ 96:24 is t23 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:96:24
+	t24 = new [2]any (varargs)                                      *[2]any
+	t25 = &t24[0:int]                                                  *any
+	t26 = make any <- float64 (t21)                                     any
+	*t25 = t26
+	t27 = &t24[1:int]                                                  *any
+	t28 = make any <- float64 (t23)                                     any
+	*t27 = t28
+	t29 = slice t24[:]                                                []any
+	t30 = fmt.Println(t29...)                            (n int, err error)
+	; *ast.CallExpr @ 96:2 is t30 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:96:2
+	; *ast.SelectorExpr @ 97:2 is Println --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:97:2
+	t31 = *t18                                                   complex128
+	; var cb complex128 @ 97:19 is t31 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:97:19
+	t32 = imag(t31)                                                 float64
+	; *ast.CallExpr @ 97:14 is t32 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:97:14
+	t33 = *t18                                                   complex128
+	; var cb complex128 @ 97:29 is t33 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:97:29
+	t34 = real(t33)                                                 float64
+	; *ast.CallExpr @ 97:24 is t34 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:97:24
+	t35 = new [2]any (varargs)                                      *[2]any
+	t36 = &t35[0:int]                                                  *any
+	t37 = make any <- float64 (t32)                                     any
+	*t36 = t37
+	t38 = &t35[1:int]                                                  *any
+	t39 = make any <- float64 (t34)                                     any
+	*t38 = t39
+	t40 = slice t35[:]                                                []any
+	t41 = fmt.Println(t40...)                            (n int, err error)
+	; *ast.CallExpr @ 97:2 is t41 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:97:2
+	t42 = *t19                                                   complex128
+	; var ccc complex128 @ 98:6 is t42 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:98:6
+	t43 = local ABC (abc)                                              *ABC
+	; address of var abc example/mypack.ABC @ 100:2 is t43 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:100:2
+	; address of *ast.CompositeLit @ 100:9 is t43 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:100:9
+	t44 = local InterfaceExample (interfaceABC)           *InterfaceExample
+	t45 = *t43                                                          ABC
+	; var abc example/mypack.ABC @ 101:35 is t45 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:101:35
+	t46 = make InterfaceExample <- ABC (t45)               InterfaceExample
+	; *ast.CallExpr @ 101:18 is t46 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:101:18
+	*t44 = t46
+	; var interfaceABC example/mypack.InterfaceExample @ 101:2 is t46 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:101:2
+	t47 = *t44                                             InterfaceExample
+	; var interfaceABC example/mypack.InterfaceExample @ 102:2 is t47 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:102:2
+	t48 = invoke t47.Hi()                                            string
+	; *ast.CallExpr @ 102:2 is t48 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:102:2
+	t49 = local int (v)                                                *int
+	*t49 = 123:int
+	; var v int @ 104:2 is 123:int --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:104:2
+	t50 = local uintptr (vptr)                                     *uintptr
+	t51 = *t49                                                          int
+	; var v int @ 105:18 is t51 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:105:18
+	t52 = convert uintptr <- int (t51)                              uintptr
+	; *ast.CallExpr @ 105:10 is t52 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:105:10
+	*t50 = t52
+	; var vptr uintptr @ 105:2 is t52 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:105:2
+	t53 = local unsafe.Pointer (vptrUnsafe)                 *unsafe.Pointer
+	t54 = *t50                                                      uintptr
+	; var vptr uintptr @ 106:31 is t54 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:106:31
+	t55 = convert unsafe.Pointer <- uintptr (t54)            unsafe.Pointer
+	; *ast.CallExpr @ 106:16 is t55 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:106:16
+	*t53 = t55
+	; var vptrUnsafe unsafe.Pointer @ 106:2 is t55 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:106:2
+	t56 = local *int (vptr2)                                          **int
+	t57 = *t53                                               unsafe.Pointer
+	; var vptrUnsafe unsafe.Pointer @ 107:18 is t57 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:107:18
+	t58 = convert *int <- unsafe.Pointer (t57)                         *int
+	; *ast.CallExpr @ 107:11 is t58 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:107:11
+	*t56 = t58
+	; var vptr2 *int @ 107:2 is t58 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:107:2
+	t59 = *t56                                                         *int
+	; var vptr2 *int @ 108:7 is t59 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:108:7
+	t60 = *t59                                                          int
+	; *ast.StarExpr @ 108:6 is t60 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:108:6
+	t61 = local unsafe.Pointer (unsafeNil)                  *unsafe.Pointer
+	; *ast.CallExpr @ 109:15 is nil:unsafe.Pointer --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:109:15
+	*t61 = nil:unsafe.Pointer
+	; var unsafeNil unsafe.Pointer @ 109:2 is nil:unsafe.Pointer --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:109:2
+	t62 = *t61                                               unsafe.Pointer
+	; var unsafeNil unsafe.Pointer @ 110:6 is t62 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:110:6
+	t63 = local uintptr (var1)                                     *uintptr
+	*t63 = 859530379920:uintptr
+	; var var1 uintptr @ 112:6 is 859530379920:uintptr --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:112:6
+	t64 = *t63                                                      uintptr
+	; var var1 uintptr @ 113:6 is t64 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:113:6
+	t65 = local map[string]string (m)                    *map[string]string
+	t66 = make map[string]string                          map[string]string
+	; *ast.CallExpr @ 115:7 is t66 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:115:7
+	*t65 = t66
+	; var m map[string]string @ 115:2 is t66 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:115:2
+	t67 = *t65                                            map[string]string
+	; var m map[string]string @ 116:2 is t67 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:116:2
+	t67["hello":string] = "world":string
+	t68 = *t65                                            map[string]string
+	; var m map[string]string @ 117:2 is t68 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:117:2
+	t68["world":string] = "hello":string
+	t69 = local string (k)                                          *string
+	t70 = local string (v)                                          *string
+	t71 = *t65                                            map[string]string
+	; var m map[string]string @ 118:20 is t71 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:118:20
+	t72 = range t71                                                    iter
+	jump 1
+1:                                                       rangeiter.loop P:2 S:2
+	t73 = next t72                            (ok bool, k string, v string)
+	t74 = extract t73 #0                                               bool
+	if t74 goto 2 else 3
+	; [if loc]: if t74 goto 2 else 3 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:118:2
+2:                                                       rangeiter.body P:1 S:1
+	t75 = extract t73 #1                                             string
+	t76 = extract t73 #2                                             string
+	*t69 = t75
+	; var k string @ 118:6 is t75 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:118:6
+	*t70 = t76
+	; var v string @ 118:9 is t76 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:118:9
+	t77 = *t70                                                       string
+	; var v string @ 119:7 is t77 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:119:7
+	t78 = *t65                                            map[string]string
+	; var m map[string]string @ 120:10 is t78 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:120:10
+	t79 = *t69                                                       string
+	; var k string @ 120:13 is t79 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:120:13
+	t80 = delete(t78, t79)                                               ()
+	; *ast.CallExpr @ 120:3 is t80 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:120:3
+	jump 1
+3:                                                       rangeiter.done P:1 S:2
+	t81 = local func(a int, b string) (float32, float64) (funcPtr1) *func(a int, b string) (float32, float64)
+	*t81 = myFunc
+	; var funcPtr1 func(a int, b string) (float32, float64) @ 124:2 is myFunc --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:124:2
+	t82 = *t81                     func(a int, b string) (float32, float64)
+	; var funcPtr1 func(a int, b string) (float32, float64) @ 125:9 is t82 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:125:9
+	t83 = t82(1:int, "hello":string)                     (float32, float64)
+	; *ast.CallExpr @ 125:9 is t83 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:125:9
+	t84 = extract t83 #0                                            float32
+	t85 = extract t83 #1                                            float64
+	t86 = local []int (arr)                                          *[]int
+	t87 = new [5]int (makeslice)                                    *[5]int
+	t88 = slice t87[:5:int]                                           []int
+	; *ast.CallExpr @ 128:9 is t88 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:128:9
+	*t86 = t88
+	; var arr []int @ 128:2 is t88 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:128:2
+	t89 = *t86                                                        []int
+	; var arr []int @ 129:6 is t89 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:129:6
+	t90 = *t0                                                          int8
+	; var a int8 @ 131:15 is t90 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:131:15
+	t91 = *t1                                                         int16
+	; var b int16 @ 131:18 is t91 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:131:18
+	t92 = *t2                                                         int32
+	; var c int32 @ 131:21 is t92 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:131:21
+	t93 = *t3                                                         int64
+	; var d int64 @ 131:24 is t93 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:131:24
+	t94 = *t4                                                          uint
+	; var aa uint @ 132:18 is t94 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:132:18
+	t95 = *t5                                                         uint8
+	; var bb uint8 @ 132:22 is t95 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:132:22
+	t96 = *t6                                                        uint16
+	; var cc uint16 @ 132:26 is t96 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:132:26
+	t97 = *t7                                                        uint32
+	; var dd uint32 @ 132:30 is t97 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:132:30
+	t98 = *t8                                                        uint64
+	; var ee uint64 @ 132:34 is t98 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:132:34
+	t99 = *t9                                                          byte
+	; var _b byte @ 133:9 is t99 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:133:9
+	t100 = *t10                                                        rune
+	; var r rune @ 133:13 is t100 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:133:13
+	t101 = *t11                                                      []byte
+	; var byteArr []byte @ 134:9 is t101 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:134:9
+	t102 = *t13                                                      []rune
+	; var runeArr []rune @ 134:18 is t102 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:134:18
+	t103 = local *net/http.Response (resp)              **net/http.Response
+	t104 = local error (err)                                         *error
+	; *ast.SelectorExpr @ 136:15 is Get --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:136:15
+	t105 = net/http.Get("https://myhompage.com/sub/123":string) (resp *net/http.Response, err error)
+	; *ast.CallExpr @ 136:15 is t105 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:136:15
+	t106 = extract t105 #0                               *net/http.Response
+	*t103 = t106
+	; var resp *net/http.Response @ 136:2 is t106 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:136:2
+	t107 = extract t105 #1                                            error
+	*t104 = t107
+	; var err error @ 136:8 is t107 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:136:8
+	t108 = *t104                                                      error
+	; var err error @ 137:5 is t108 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:137:5
+	t109 = t108 != nil:error                                           bool
+	; *ast.BinaryExpr @ 137:5 is t109 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:137:5
+	if t109 goto 4 else 5
+	; [if loc]: if t109 goto 4 else 5 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:137:5
+4:                                                              if.then P:1 S:1
+	; *ast.SelectorExpr @ 138:3 is Fatalln --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:138:3
+	t110 = *t104                                                      error
+	; var err error @ 138:15 is t110 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:138:15
+	t111 = *t103                                         *net/http.Response
+	; var resp *net/http.Response @ 138:20 is t111 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:138:20
+	t112 = new [2]any (varargs)                                     *[2]any
+	t113 = &t112[0:int]                                                *any
+	t114 = change interface any <- error (t110)                         any
+	*t113 = t114
+	t115 = &t112[1:int]                                                *any
+	t116 = make any <- *net/http.Response (t111)                        any
+	*t115 = t116
+	t117 = slice t112[:]                                              []any
+	t118 = log.Fatalln(t117...)                                          ()
+	; *ast.CallExpr @ 138:3 is t118 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:138:3
+	jump 5
+5:                                                              if.done P:2 S:2
+	t119 = local string (a123)                                      *string
+	*t119 = "wwwwwwwwwwweeeeeeeeeeeeeeeeaaaaaaaaaa":string
+	; var a123 string @ 140:2 is "wwwwwwwwwwweeeeeeeeeeeeeeeeaaaaaaaaaa":string --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:140:2
+	t120 = *t119                                                     string
+	; var a123 string @ 141:6 is t120 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:141:6
+	; *ast.FuncLit @ 143:5 is types$1 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:143:5
+	go types$1()
+	; *ast.FuncLit @ 147:5 is types$2 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:147:5
+	go types$2()
+	go myFunc(1:int, "hello":string)
+	t121 = local chan bool (ch1)                                 *chan bool
+	t122 = make chan bool 0:int                                   chan bool
+	; *ast.CallExpr @ 154:9 is t122 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:154:9
+	*t121 = t122
+	; var ch1 chan bool @ 154:2 is t122 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:154:2
+	t123 = local chan bool (ch2)                                 *chan bool
+	t124 = make chan bool 0:int                                   chan bool
+	; *ast.CallExpr @ 155:9 is t124 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:155:9
+	*t123 = t124
+	; var ch2 chan bool @ 155:2 is t124 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:155:2
+	t125 = *t121                                                  chan bool
+	; var ch1 chan bool @ 156:2 is t125 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:156:2
+	send t125 <- true:bool
+	t126 = *t121                                                  chan bool
+	; var ch1 chan bool @ 158:18 is t126 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:158:18
+	t127 = *t123                                                  chan bool
+	; var ch2 chan bool @ 160:18 is t127 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:160:18
+	t128 = select nonblocking [<-t126, <-t127] (index int, ok bool, bool, bool)
+	t129 = extract t128 #0                                              int
+	t130 = t129 == 0:int                                               bool
+	if t130 goto 7 else 8
+	; [if loc]: if t130 goto 7 else 8 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:157:2
+6:                                                          select.done P:3 S:0
+	t131 = local rect (rrr)                                           *rect
+	; address of var rrr example/mypack.rect @ 174:2 is t131 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:174:2
+	t132 = &t131.width [#0]                                        *float64
+	t133 = &t131.height [#1]                                       *float64
+	; address of *ast.CompositeLit @ 174:9 is t131 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:174:9
+	*t132 = 3:float64
+	; *ast.BasicLit @ 174:21 is 3:float64 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:174:21
+	*t133 = 4:float64
+	; *ast.BasicLit @ 174:32 is 4:float64 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:174:32
+	t134 = *t131                                                       rect
+	; var rrr example/mypack.rect @ 175:10 is t134 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:175:10
+	t135 = make geometry <- rect (t134)                            geometry
+	t136 = measure(t135)                                                 ()
+	; *ast.CallExpr @ 175:2 is t136 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:175:2
+	; *ast.SelectorExpr @ 182:2 is Println --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:182:2
+	t137 = new [1]any (varargs)                                     *[1]any
+	t138 = &t137[0:int]                                                *any
+	t139 = make any <- status (2:status)                                any
+	*t138 = t139
+	t140 = slice t137[:]                                              []any
+	t141 = fmt.Println(t140...)                          (n int, err error)
+	; *ast.CallExpr @ 182:2 is t141 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:182:2
+	t142 = local status (asd)                                       *status
+	*t142 = 0:status
+	; var asd example/mypack.status @ 183:2 is 0:example/mypack.status --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:183:2
+	t143 = *t142                                                     status
+	; var asd example/mypack.status @ 184:6 is t143 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:184:6
+	t144 = local [][]byte (db)                                    *[][]byte
+	; address of var db [][]byte @ 186:6 is t144 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:186:6
+	t145 = *t144                                                   [][]byte
+	; var db [][]byte @ 187:6 is t145 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:187:6
+	t146 = local chan int (d1)                                    *chan int
+	t147 = make chan int 0:int                                     chan int
+	; *ast.CallExpr @ 189:8 is t147 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:189:8
+	*t146 = t147
+	; var d1 chan int @ 189:2 is t147 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:189:2
+	t148 = local <-chan int (d2)                                *<-chan int
+	t149 = *t146                                                   chan int
+	; var d1 chan int @ 190:21 is t149 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:190:21
+	t150 = changetype <-chan int <- chan int (t149)              <-chan int
+	; *ast.CallExpr @ 190:8 is t150 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:190:8
+	*t148 = t150
+	; var d2 <-chan int @ 190:2 is t150 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:190:2
+	t151 = *t148                                                 <-chan int
+	; var d2 <-chan int @ 191:6 is t151 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:191:6
+	t152 = local map[string]string (sm)                  *map[string]string
+	t153 = make map[string]string                         map[string]string
+	; *ast.CallExpr @ 193:8 is t153 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:193:8
+	*t152 = t153
+	; var sm map[string]string @ 193:2 is t153 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:193:2
+	t154 = local string (vm)                                        *string
+	t155 = *t152                                          map[string]string
+	; var sm map[string]string @ 194:11 is t155 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:194:11
+	t156 = t155["hello":string],ok                           (string, bool)
+	; *ast.IndexExpr @ 194:11 is t156 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:194:11
+	t157 = extract t156 #0                                           string
+	*t154 = t157
+	; var vm string @ 194:2 is t157 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:194:2
+	t158 = extract t156 #1                                             bool
+	t159 = *t154                                                     string
+	; var vm string @ 195:6 is t159 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:195:6
+	t160 = new int (idx1)                                              *int
+	t161 = new int (idx2)                                              *int
+	t162 = new int (idx3)                                              *int
+	*t160 = 0:int
+	; var idx1 int @ 197:2 is 0:int --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:197:2
+	*t161 = 0:int
+	; var idx2 int @ 197:8 is 0:int --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:197:8
+	*t162 = 0:int
+	; var idx3 int @ 197:14 is 0:int --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:197:14
+	t163 = make closure types$3 [t160, t161, t162]               func() int
+	; *ast.FuncLit @ 198:5 is t163 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:198:5
+	go t163()
+	t164 = local []int (sl)                                          *[]int
+	; address of var sl []int @ 204:2 is t164 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:204:2
+	t165 = new [5]int (slicelit)                                    *[5]int
+	t166 = &t165[0:int]                                                *int
+	*t166 = 1:int
+	; *ast.BasicLit @ 204:14 is 1:int --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:204:14
+	t167 = &t165[1:int]                                                *int
+	*t167 = 2:int
+	; *ast.BasicLit @ 204:17 is 2:int --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:204:17
+	t168 = &t165[2:int]                                                *int
+	*t168 = 3:int
+	; *ast.BasicLit @ 204:20 is 3:int --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:204:20
+	t169 = &t165[3:int]                                                *int
+	*t169 = 4:int
+	; *ast.BasicLit @ 204:23 is 4:int --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:204:23
+	t170 = &t165[4:int]                                                *int
+	*t170 = 5:int
+	; *ast.BasicLit @ 204:26 is 5:int --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:204:26
+	t171 = slice t165[:]                                              []int
+	*t164 = t171
+	; *ast.CompositeLit @ 204:8 is t171 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:204:8
+	t172 = local *[5]int (slPtr)                                   **[5]int
+	t173 = *t164                                                      []int
+	; var sl []int @ 205:21 is t173 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:205:21
+	t174 = slice to array pointer *[5]int <- []int (t173)           *[5]int
+	; *ast.CallExpr @ 205:11 is t174 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:205:11
+	*t172 = t174
+	; var slPtr *[5]int @ 205:2 is t174 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:205:2
+	t175 = *t172                                                    *[5]int
+	; var slPtr *[5]int @ 206:6 is t175 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:206:6
+	t176 = local int (aa1)                                             *int
+	t177 = local int (bb1)                                             *int
+	*t176 = 1:int
+	; var aa1 int @ 208:2 is 1:int --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:208:2
+	*t177 = 2:int
+	; var bb1 int @ 208:6 is 2:int --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:208:6
+	t178 = local int (cc1)                                             *int
+	t179 = *t176                                                        int
+	; var aa1 int @ 209:9 is t179 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:209:9
+	t180 = *t177                                                        int
+	; var bb1 int @ 209:14 is t180 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:209:14
+	t181 = t179 + t180                                                  int
+	; *ast.BinaryExpr @ 209:9 is t181 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:209:9
+	*t178 = t181
+	; var cc1 int @ 209:2 is t181 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:209:2
+	t182 = *t178                                                        int
+	; var cc1 int @ 210:6 is t182 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:210:6
+	t183 = local chan int (ch123)                                 *chan int
+	t184 = make chan int 0:int                                     chan int
+	; *ast.CallExpr @ 212:11 is t184 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:212:11
+	*t183 = t184
+	; var ch123 chan int @ 212:2 is t184 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:212:2
+	t185 = local int (asd123)                                          *int
+	t186 = local bool (qwe)                                           *bool
+	t187 = *t183                                                   chan int
+	; var ch123 chan int @ 213:17 is t187 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:213:17
+	t188 = <-t187,ok                                            (int, bool)
+	; *ast.UnaryExpr @ 213:15 is t188 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:213:15
+	t189 = extract t188 #0                                              int
+	*t185 = t189
+	; var asd123 int @ 213:2 is t189 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:213:2
+	t190 = extract t188 #1                                             bool
+	*t186 = t190
+	; var qwe bool @ 213:9 is t190 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:213:9
+	t191 = *t183                                                   chan int
+	; var ch123 chan int @ 214:2 is t191 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:214:2
+	send t191 <- 123:int
+	t192 = *t185                                                        int
+	; var asd123 int @ 215:8 is t192 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:215:8
+	t193 = *t186                                                       bool
+	; var qwe bool @ 215:15 is t193 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:215:15
+	t194 = make interface{} <- string ("hello":string)          interface{}
+	panic t194
+	; panic t194 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:216:7
+7:                                                          select.body P:1 S:1
+	t195 = local bool (value)                                         *bool
+	t196 = extract t128 #2                                             bool
+	; *ast.UnaryExpr @ 158:16 is t196 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:158:16
+	*t195 = t196
+	; var value bool @ 158:7 is t196 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:158:7
+	t197 = *t195                                                       bool
+	; var value bool @ 159:7 is t197 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:159:7
+	jump 6
+8:                                                          select.next P:1 S:2
+	t198 = t129 == 1:int                                               bool
+	if t198 goto 9 else 10
+	; [if loc]: if t198 goto 9 else 10 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:157:2
+9:                                                          select.body P:1 S:1
+	t199 = local bool (value)                                         *bool
+	t200 = extract t128 #3                                             bool
+	; *ast.UnaryExpr @ 160:16 is t200 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:160:16
+	*t199 = t200
+	; var value bool @ 160:7 is t200 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:160:7
+	t201 = *t199                                                       bool
+	; var value bool @ 161:7 is t201 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:161:7
+	jump 6
+10:                                                         select.next P:1 S:1
+	t202 = local string (a)                                         *string
+	*t202 = "hello":string
+	; var a string @ 163:3 is "hello":string --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:163:3
+	t203 = *t202                                                     string
+	; var a string @ 164:7 is t203 --> /home/hyunsoo/goanalyzer/example/project-example/mypack/util.go:164:7
+	jump 6

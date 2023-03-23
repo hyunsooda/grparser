@@ -1,0 +1,259 @@
+package unsafe:
+  type  Pointer    Pointer
+package io:
+  type  Reader     interface{Read(p []byte) (n int, err error)}
+  type  Writer     interface{Write(p []byte) (n int, err error)}
+package fmt:
+  type  Formatter    interface{Format(f State, verb rune)}
+  type  GoStringer   interface{GoString() string}
+  type  ScanState    interface{Read(buf []byte) (n int, err error); ReadRune() (r rune, size int, err error); SkipSpace(); Token(skipSpace bool, f func(rune) bool) (token []byte, err error); UnreadRune() error; Width() (wid int, ok bool)}
+  type  Scanner      interface{Scan(state ScanState, verb rune) error}
+  type  State        interface{Flag(c int) bool; Precision() (prec int, ok bool); Width() (wid int, ok bool); Write(b []byte) (n int, err error)}
+  type  Stringer     interface{String() string}
+  type  stringReader string
+package example/mypack:
+  type  ABC              struct{}
+  type  InterfaceExample interface{Hi() string}
+package example/anotherpackage:
+  type  ABC        struct{}
+package example:
+  type  A             struct{}
+package unsafe:
+  type  Pointer    Pointer
+package io:
+  type  Reader     interface{Read(p []byte) (n int, err error)}
+  type  Writer     interface{Write(p []byte) (n int, err error)}
+package fmt:
+  type  Formatter    interface{Format(f State, verb rune)}
+  type  GoStringer   interface{GoString() string}
+  type  ScanState    interface{Read(buf []byte) (n int, err error); ReadRune() (r rune, size int, err error); SkipSpace(); Token(skipSpace bool, f func(rune) bool) (token []byte, err error); UnreadRune() error; Width() (wid int, ok bool)}
+  type  Scanner      interface{Scan(state ScanState, verb rune) error}
+  type  State        interface{Flag(c int) bool; Precision() (prec int, ok bool); Width() (wid int, ok bool); Write(b []byte) (n int, err error)}
+  type  Stringer     interface{String() string}
+  type  stringReader string
+package example/mypack:
+  type  ABC              struct{}
+  type  InterfaceExample interface{Hi() string}
+package example/anotherpackage:
+  type  ABC        struct{}
+package unsafe:
+  type  Pointer    Pointer
+package sync/atomic:
+  type  Value      struct{v any}
+package sync:
+  type  Cond        struct{noCopy noCopy; L Locker; notify notifyList; checker copyChecker}
+  type  Locker      interface{Lock(); Unlock()}
+  type  Mutex       struct{state int32; sema uint32}
+  type  Once        struct{done uint32; m Mutex}
+  type  RWMutex     struct{w Mutex; writerSem uint32; readerSem uint32; readerCount int32; readerWait int32}
+  type  copyChecker uintptr
+  type  noCopy      struct{}
+  type  notifyList  struct{wait uint32; notify uint32; lock uintptr; head unsafe.Pointer; tail unsafe.Pointer}
+package io:
+  type  ByteReader  interface{ReadByte() (byte, error)}
+  type  ByteScanner interface{UnreadByte() error; ByteReader}
+  type  Closer      interface{Close() error}
+  type  ReadCloser  interface{Closer; Reader}
+  type  ReadSeeker  interface{Reader; Seeker}
+  type  Reader      interface{Read(p []byte) (n int, err error)}
+  type  ReaderAt    interface{ReadAt(p []byte, off int64) (n int, err error)}
+  type  Seeker      interface{Seek(offset int64, whence int) (int64, error)}
+  type  Writer      interface{Write(p []byte) (n int, err error)}
+package syscall:
+  type  Sockaddr   interface{sockaddr() (ptr unsafe.Pointer, len _Socklen, err error)}
+  type  _Socklen   uint32
+package time:
+  type  Duration     int64
+  type  Location     struct{name string; zone []zone; tx []zoneTrans; extend string; cacheStart int64; cacheEnd int64; cacheZone *zone}
+  type  Month        int
+  type  Time         struct{wall uint64; ext int64; loc *Location}
+  type  Timer        struct{C <-chan Time; r runtimeTimer}
+  type  Weekday      int
+  type  runtimeTimer struct{pp uintptr; when int64; period int64; f func(any, uintptr); arg any; seq uintptr; nextwhen int64; status uint32}
+  type  zone         struct{name string; offset int; isDST bool}
+  type  zoneTrans    struct{when int64; index uint8; isstd bool; isutc bool}
+package io/fs:
+  type  FS         interface{Open(name string) (File, error)}
+  type  File       interface{Close() error; Read([]byte) (int, error); Stat() (FileInfo, error)}
+  type  FileInfo   interface{IsDir() bool; ModTime() time.Time; Mode() FileMode; Name() string; Size() int64; Sys() any}
+  type  FileMode   uint32
+package fmt:
+  type  Formatter    interface{Format(f State, verb rune)}
+  type  GoStringer   interface{GoString() string}
+  type  ScanState    interface{Read(buf []byte) (n int, err error); ReadRune() (r rune, size int, err error); SkipSpace(); Token(skipSpace bool, f func(rune) bool) (token []byte, err error); UnreadRune() error; Width() (wid int, ok bool)}
+  type  Scanner      interface{Scan(state ScanState, verb rune) error}
+  type  State        interface{Flag(c int) bool; Precision() (prec int, ok bool); Width() (wid int, ok bool); Write(b []byte) (n int, err error)}
+  type  Stringer     interface{String() string}
+  type  stringReader string
+package log:
+  type  Logger        struct{mu sync.Mutex; prefix string; flag int; out io.Writer; buf []byte; isDiscard int32}
+package bytes:
+  type  Buffer     struct{buf []byte; off int; lastRead readOp}
+  type  Reader     struct{s []byte; i int64; prevRune int}
+  type  readOp     int8
+package bufio:
+  type  ReadWriter struct{*Reader; *Writer}
+  type  Reader     struct{buf []byte; rd io.Reader; r int; w int; err error; lastByte int; lastRuneSize int}
+  type  Writer     struct{err error; buf []byte; n int; wr io.Writer}
+package hash:
+  type  Hash       interface{BlockSize() int; Reset(); Size() int; Sum(b []byte) []byte; io.Writer}
+package container/list:
+  type  Element    struct{next *Element; prev *Element; list *List; Value any}
+  type  List       struct{root Element; len int}
+package context:
+  type  CancelFunc func()
+  type  Context    interface{Deadline() (deadline time.Time, ok bool); Done() <-chan struct{}; Err() error; Value(key any) any}
+package crypto/cipher:
+  type  AEAD       interface{NonceSize() int; Open(dst []byte, nonce []byte, ciphertext []byte, additionalData []byte) ([]byte, error); Overhead() int; Seal(dst []byte, nonce []byte, plaintext []byte, additionalData []byte) []byte}
+package math/rand:
+  type  Rand       struct{src Source; s64 Source64; readVal int64; readPos int8}
+  type  Source     interface{Int63() int64; Seed(seed int64)}
+  type  Source64   interface{Uint64() uint64; Source}
+package math/big:
+  type  Int        struct{neg bool; abs nat}
+  type  Word       uint
+  type  divisor    struct{bbb nat; nbits int; ndigits int}
+  type  nat        []Word
+package crypto:
+  type  Hash       uint
+  type  PrivateKey any
+package encoding/asn1:
+  type  BitString        struct{Bytes []byte; BitLength int}
+  type  ObjectIdentifier []int
+  type  RawContent       []byte
+  type  RawValue         struct{Class int; Tag int; IsCompound bool; Bytes []byte; FullBytes []byte}
+package crypto/x509/pkix:
+  type  AlgorithmIdentifier          struct{Algorithm encoding/asn1.ObjectIdentifier; Parameters encoding/asn1.RawValue "asn1:\"optional\""}
+  type  AttributeTypeAndValue        struct{Type encoding/asn1.ObjectIdentifier; Value any}
+  type  CertificateList              struct{TBSCertList TBSCertificateList; SignatureAlgorithm AlgorithmIdentifier; SignatureValue encoding/asn1.BitString}
+  type  Extension                    struct{Id encoding/asn1.ObjectIdentifier; Critical bool "asn1:\"optional\""; Value []byte}
+  type  Name                         struct{Country []string; Organization []string; OrganizationalUnit []string; Locality []string; Province []string; StreetAddress []string; PostalCode []string; SerialNumber string; CommonName string; Names []AttributeTypeAndValue; ExtraNames []AttributeTypeAndValue}
+  type  RDNSequence                  []RelativeDistinguishedNameSET
+  type  RelativeDistinguishedNameSET []AttributeTypeAndValue
+  type  RevokedCertificate           struct{SerialNumber *math/big.Int; RevocationTime time.Time; Extensions []Extension "asn1:\"optional\""}
+  type  TBSCertificateList           struct{Raw encoding/asn1.RawContent; Version int "asn1:\"optional,default:0\""; Signature AlgorithmIdentifier; Issuer RDNSequence; ThisUpdate time.Time; NextUpdate time.Time "asn1:\"optional\""; RevokedCertificates []RevokedCertificate "asn1:\"optional\""; Extensions []Extension "asn1:\"tag:0,optional,explicit\""}
+package net:
+  type  Addr       interface{Network() string; String() string}
+  type  Conn       interface{Close() error; LocalAddr() Addr; Read(b []byte) (n int, err error); RemoteAddr() Addr; SetDeadline(t time.Time) error; SetReadDeadline(t time.Time) error; SetWriteDeadline(t time.Time) error; Write(b []byte) (n int, err error)}
+  type  IP         []byte
+  type  IPAddr     struct{IP IP; Zone string}
+  type  IPMask     []byte
+  type  IPNet      struct{IP IP; Mask IPMask}
+  type  Listener   interface{Accept() (Conn, error); Addr() Addr; Close() error}
+  type  sockaddr   interface{family() int; isWildcard() bool; sockaddr(family int) (syscall.Sockaddr, error); toLocal(net string) sockaddr; Addr}
+package net/url:
+  type  URL        struct{Scheme string; Opaque string; User *Userinfo; Host string; Path string; RawPath string; ForceQuery bool; RawQuery string; Fragment string; RawFragment string}
+  type  Userinfo   struct{username string; password string; passwordSet bool}
+  type  Values     map[string][]string
+package crypto/x509:
+  type  CertPool           struct{byName map[string][]int; lazyCerts []lazyCert; haveSum map[sum224]bool; systemPool bool}
+  type  Certificate        struct{Raw []byte; RawTBSCertificate []byte; RawSubjectPublicKeyInfo []byte; RawSubject []byte; RawIssuer []byte; Signature []byte; SignatureAlgorithm SignatureAlgorithm; PublicKeyAlgorithm PublicKeyAlgorithm; PublicKey any; Version int; SerialNumber *math/big.Int; Issuer crypto/x509/pkix.Name; Subject crypto/x509/pkix.Name; NotBefore time.Time; NotAfter time.Time; KeyUsage KeyUsage; Extensions []crypto/x509/pkix.Extension; ExtraExtensions []crypto/x509/pkix.Extension; UnhandledCriticalExtensions []encoding/asn1.ObjectIdentifier; ExtKeyUsage []ExtKeyUsage; UnknownExtKeyUsage []encoding/asn1.ObjectIdentifier; BasicConstraintsValid bool; IsCA bool; MaxPathLen int; MaxPathLenZero bool; SubjectKeyId []byte; AuthorityKeyId []byte; OCSPServer []string; IssuingCertificateURL []string; DNSNames []string; EmailAddresses []string; IPAddresses []net.IP; URIs []*net/url.URL; PermittedDNSDomainsCritical bool; PermittedDNSDomains []string; ExcludedDNSDomains []string; PermittedIPRanges []*net.IPNet; ExcludedIPRanges []*net.IPNet; PermittedEmailAddresses []string; ExcludedEmailAddresses []string; PermittedURIDomains []string; ExcludedURIDomains []string; CRLDistributionPoints []string; PolicyIdentifiers []encoding/asn1.ObjectIdentifier}
+  type  ExtKeyUsage        int
+  type  KeyUsage           int
+  type  PublicKeyAlgorithm int
+  type  SignatureAlgorithm int
+  type  VerifyOptions      struct{DNSName string; Intermediates *CertPool; Roots *CertPool; CurrentTime time.Time; KeyUsages []ExtKeyUsage; MaxConstraintComparisions int}
+  type  lazyCert           struct{rawSubject []byte; getCert func() (*Certificate, error)}
+  type  sum224             [28]byte
+package crypto/tls:
+  type  Certificate              struct{Certificate [][]byte; PrivateKey crypto.PrivateKey; SupportedSignatureAlgorithms []SignatureScheme; OCSPStaple []byte; SignedCertificateTimestamps [][]byte; Leaf *crypto/x509.Certificate}
+  type  CertificateRequestInfo   struct{AcceptableCAs [][]byte; SignatureSchemes []SignatureScheme; Version uint16; ctx context.Context}
+  type  ClientAuthType           int
+  type  ClientHelloInfo          struct{CipherSuites []uint16; ServerName string; SupportedCurves []CurveID; SupportedPoints []uint8; SignatureSchemes []SignatureScheme; SupportedProtos []string; SupportedVersions []uint16; Conn net.Conn; config *Config; ctx context.Context}
+  type  ClientSessionCache       interface{Get(sessionKey string) (session *ClientSessionState, ok bool); Put(sessionKey string, cs *ClientSessionState)}
+  type  ClientSessionState       struct{sessionTicket []uint8; vers uint16; cipherSuite uint16; masterSecret []byte; serverCertificates []*crypto/x509.Certificate; verifiedChains [][]*crypto/x509.Certificate; receivedAt time.Time; ocspResponse []byte; scts [][]byte; nonce []byte; useBy time.Time; ageAdd uint32}
+  type  Config                   struct{Rand io.Reader; Time func() time.Time; Certificates []Certificate; NameToCertificate map[string]*Certificate; GetCertificate func(*ClientHelloInfo) (*Certificate, error); GetClientCertificate func(*CertificateRequestInfo) (*Certificate, error); GetConfigForClient func(*ClientHelloInfo) (*Config, error); VerifyPeerCertificate func(rawCerts [][]byte, verifiedChains [][]*crypto/x509.Certificate) error; VerifyConnection func(ConnectionState) error; RootCAs *crypto/x509.CertPool; NextProtos []string; ServerName string; ClientAuth ClientAuthType; ClientCAs *crypto/x509.CertPool; InsecureSkipVerify bool; CipherSuites []uint16; PreferServerCipherSuites bool; SessionTicketsDisabled bool; SessionTicketKey [32]byte; ClientSessionCache ClientSessionCache; MinVersion uint16; MaxVersion uint16; CurvePreferences []CurveID; DynamicRecordSizingDisabled bool; Renegotiation RenegotiationSupport; KeyLogWriter io.Writer; mutex sync.RWMutex; sessionTicketKeys []ticketKey; autoSessionTicketKeys []ticketKey}
+  type  Conn                     struct{conn net.Conn; isClient bool; handshakeFn func(context.Context) error; handshakeStatus uint32; handshakeMutex sync.Mutex; handshakeErr error; vers uint16; haveVers bool; config *Config; handshakes int; didResume bool; cipherSuite uint16; ocspResponse []byte; scts [][]byte; peerCertificates []*crypto/x509.Certificate; verifiedChains [][]*crypto/x509.Certificate; serverName string; secureRenegotiation bool; ekm func(label string, context []byte, length int) ([]byte, error); resumptionSecret []byte; ticketKeys []ticketKey; clientFinishedIsFirst bool; closeNotifyErr error; closeNotifySent bool; clientFinished [12]byte; serverFinished [12]byte; clientProtocol string; in halfConn; out halfConn; rawInput bytes.Buffer; input bytes.Reader; hand bytes.Buffer; buffering bool; sendBuf []byte; bytesSent int64; packetsSent int64; retryCount int; activeCall int32; tmp [16]byte}
+  type  ConnectionState          struct{Version uint16; HandshakeComplete bool; DidResume bool; CipherSuite uint16; NegotiatedProtocol string; NegotiatedProtocolIsMutual bool; ServerName string; PeerCertificates []*crypto/x509.Certificate; VerifiedChains [][]*crypto/x509.Certificate; SignedCertificateTimestamps [][]byte; OCSPResponse []byte; TLSUnique []byte; ekm func(label string, context []byte, length int) ([]byte, error)}
+  type  CurveID                  uint16
+  type  RecordHeaderError        struct{Msg string; RecordHeader [5]byte; Conn net.Conn}
+  type  RenegotiationSupport     int
+  type  SignatureScheme          uint16
+  type  aead                     interface{explicitNonceLen() int; crypto/cipher.AEAD}
+  type  alert                    uint8
+  type  cipherSuiteTLS13         struct{id uint16; keyLen int; aead func(key []byte, fixedNonce []byte) aead; hash crypto.Hash}
+  type  clientHelloMsg           struct{raw []byte; vers uint16; random []byte; sessionId []byte; cipherSuites []uint16; compressionMethods []uint8; serverName string; ocspStapling bool; supportedCurves []CurveID; supportedPoints []uint8; ticketSupported bool; sessionTicket []uint8; supportedSignatureAlgorithms []SignatureScheme; supportedSignatureAlgorithmsCert []SignatureScheme; secureRenegotiationSupported bool; secureRenegotiation []byte; alpnProtocols []string; scts bool; supportedVersions []uint16; cookie []byte; keyShares []keyShare; earlyData bool; pskModes []uint8; pskIdentities []pskIdentity; pskBinders [][]byte}
+  type  ecdheParameters          interface{CurveID() CurveID; PublicKey() []byte; SharedKey(peerPublicKey []byte) []byte}
+  type  halfConn                 struct{sync.Mutex; err error; version uint16; cipher any; mac hash.Hash; seq [8]byte; scratchBuf [13]byte; nextCipher any; nextMac hash.Hash; trafficSecret []byte}
+  type  keyShare                 struct{group CurveID; data []byte}
+  type  keyUpdateMsg             struct{raw []byte; updateRequested bool}
+  type  newSessionTicketMsgTLS13 struct{raw []byte; lifetime uint32; ageAdd uint32; nonce []byte; label []byte; maxEarlyData uint32}
+  type  pskIdentity              struct{label []byte; obfuscatedTicketAge uint32}
+  type  recordType               uint8
+  type  serverHelloMsg           struct{raw []byte; vers uint16; random []byte; sessionId []byte; cipherSuite uint16; compressionMethod uint8; ocspStapling bool; ticketSupported bool; secureRenegotiationSupported bool; secureRenegotiation []byte; alpnProtocol string; scts [][]byte; supportedVersion uint16; serverShare keyShare; selectedIdentityPresent bool; selectedIdentity uint16; supportedPoints []uint8; cookie []byte; selectedGroup CurveID}
+  type  ticketKey                struct{keyName [16]byte; aesKey [16]byte; hmacKey [16]byte; created time.Time}
+package net/textproto:
+  type  MIMEHeader map[string][]string
+package mime/multipart:
+  type  File       interface{io.Closer; io.Reader; io.ReaderAt; io.Seeker}
+  type  FileHeader struct{Filename string; Header net/textproto.MIMEHeader; Size int64; content []byte; tmpfile string}
+  type  Form       struct{Value map[string][]string; File map[string][]*FileHeader}
+  type  Part       struct{Header net/textproto.MIMEHeader; mr *Reader; disposition string; dispositionParams map[string]string; r io.Reader; n int; total int64; err error; readErr error}
+  type  Reader     struct{bufReader *bufio.Reader; currentPart *Part; partsRead int; nl []byte; nlDashBoundary []byte; dashBoundaryDash []byte; dashBoundary []byte}
+package net/http/httptrace:
+  type  ClientTrace      struct{GetConn func(hostPort string); GotConn func(GotConnInfo); PutIdleConn func(err error); GotFirstResponseByte func(); Got100Continue func(); Got1xxResponse func(code int, header net/textproto.MIMEHeader) error; DNSStart func(DNSStartInfo); DNSDone func(DNSDoneInfo); ConnectStart func(network string, addr string); ConnectDone func(network string, addr string, err error); TLSHandshakeStart func(); TLSHandshakeDone func(crypto/tls.ConnectionState, error); WroteHeaderField func(key string, value []string); WroteHeaders func(); Wait100Continue func(); WroteRequest func(WroteRequestInfo)}
+  type  DNSDoneInfo      struct{Addrs []net.IPAddr; Err error; Coalesced bool}
+  type  DNSStartInfo     struct{Host string}
+  type  GotConnInfo      struct{Conn net.Conn; Reused bool; WasIdle bool; IdleTime time.Duration}
+  type  WroteRequestInfo struct{Err error}
+package net/http:
+  type  Client                              struct{Transport RoundTripper; CheckRedirect func(req *Request, via []*Request) error; Jar CookieJar; Timeout time.Duration}
+  type  CloseNotifier                       interface{CloseNotify() <-chan bool}
+  type  ConnState                           int
+  type  Cookie                              struct{Name string; Value string; Path string; Domain string; Expires time.Time; RawExpires string; MaxAge int; Secure bool; HttpOnly bool; SameSite SameSite; Raw string; Unparsed []string}
+  type  CookieJar                           interface{Cookies(u *net/url.URL) []*Cookie; SetCookies(u *net/url.URL, cookies []*Cookie)}
+  type  Dir                                 string
+  type  File                                interface{Readdir(count int) ([]io/fs.FileInfo, error); Stat() (io/fs.FileInfo, error); io.Closer; io.Reader; io.Seeker}
+  type  FileSystem                          interface{Open(name string) (File, error)}
+  type  Flusher                             interface{Flush()}
+  type  Handler                             interface{ServeHTTP(ResponseWriter, *Request)}
+  type  HandlerFunc                         func(ResponseWriter, *Request)
+  type  Header                              map[string][]string
+  type  Hijacker                            interface{Hijack() (net.Conn, *bufio.ReadWriter, error)}
+  type  ProtocolError                       struct{ErrorString string}
+  type  PushOptions                         struct{Method string; Header Header}
+  type  Pusher                              interface{Push(target string, opts *PushOptions) error}
+  type  Request                             struct{Method string; URL *net/url.URL; Proto string; ProtoMajor int; ProtoMinor int; Header Header; Body io.ReadCloser; GetBody func() (io.ReadCloser, error); ContentLength int64; TransferEncoding []string; Close bool; Host string; Form net/url.Values; PostForm net/url.Values; MultipartForm *mime/multipart.Form; Trailer Header; RemoteAddr string; RequestURI string; TLS *crypto/tls.ConnectionState; Cancel <-chan struct{}; Response *Response; ctx context.Context}
+  type  Response                            struct{Status string; StatusCode int; Proto string; ProtoMajor int; ProtoMinor int; Header Header; Body io.ReadCloser; ContentLength int64; TransferEncoding []string; Close bool; Uncompressed bool; Trailer Header; Request *Request; TLS *crypto/tls.ConnectionState}
+  type  ResponseWriter                      interface{Header() Header; Write([]byte) (int, error); WriteHeader(statusCode int)}
+  type  RoundTripper                        interface{RoundTrip(*Request) (*Response, error)}
+  type  SameSite                            int
+  type  ServeMux                            struct{mu sync.RWMutex; m map[string]muxEntry; es []muxEntry; hosts bool}
+  type  Server                              struct{Addr string; Handler Handler; TLSConfig *crypto/tls.Config; ReadTimeout time.Duration; ReadHeaderTimeout time.Duration; WriteTimeout time.Duration; IdleTimeout time.Duration; MaxHeaderBytes int; TLSNextProto map[string]func(*Server, *crypto/tls.Conn, Handler); ConnState func(net.Conn, ConnState); ErrorLog *log.Logger; BaseContext func(net.Listener) context.Context; ConnContext func(ctx context.Context, c net.Conn) context.Context; inShutdown atomicBool; disableKeepAlives int32; nextProtoOnce sync.Once; nextProtoErr error; mu sync.Mutex; listeners map[*net.Listener]struct{}; activeConn map[*conn]struct{}; doneChan chan struct{}; onShutdown []func()}
+  type  Transport                           struct{idleMu sync.Mutex; closeIdle bool; idleConn map[connectMethodKey][]*persistConn; idleConnWait map[connectMethodKey]wantConnQueue; idleLRU connLRU; reqMu sync.Mutex; reqCanceler map[cancelKey]func(error); altMu sync.Mutex; altProto sync/atomic.Value; connsPerHostMu sync.Mutex; connsPerHost map[connectMethodKey]int; connsPerHostWait map[connectMethodKey]wantConnQueue; Proxy func(*Request) (*net/url.URL, error); DialContext func(ctx context.Context, network string, addr string) (net.Conn, error); Dial func(network string, addr string) (net.Conn, error); DialTLSContext func(ctx context.Context, network string, addr string) (net.Conn, error); DialTLS func(network string, addr string) (net.Conn, error); TLSClientConfig *crypto/tls.Config; TLSHandshakeTimeout time.Duration; DisableKeepAlives bool; DisableCompression bool; MaxIdleConns int; MaxIdleConnsPerHost int; MaxConnsPerHost int; IdleConnTimeout time.Duration; ResponseHeaderTimeout time.Duration; ExpectContinueTimeout time.Duration; TLSNextProto map[string]func(authority string, c *crypto/tls.Conn) RoundTripper; ProxyConnectHeader Header; GetProxyConnectHeader func(ctx context.Context, proxyURL *net/url.URL, target string) (Header, error); MaxResponseHeaderBytes int64; WriteBufferSize int; ReadBufferSize int; nextProtoOnce sync.Once; h2transport h2Transport; tlsNextProtoWasNil bool; ForceAttemptHTTP2 bool}
+  type  atomicBool                          int32
+  type  cancelKey                           struct{req *Request}
+  type  chunkWriter                         struct{res *response; header Header; wroteHeader bool; chunking bool}
+  type  conn                                struct{server *Server; cancelCtx context.CancelFunc; rwc net.Conn; remoteAddr string; tlsState *crypto/tls.ConnectionState; werr error; r *connReader; bufr *bufio.Reader; bufw *bufio.Writer; lastMethod string; curReq sync/atomic.Value; curState struct{atomic uint64}; mu sync.Mutex; hijackedv bool}
+  type  connLRU                             struct{ll *container/list.List; m map[*persistConn]*container/list.Element}
+  type  connReader                          struct{conn *conn; mu sync.Mutex; hasByte bool; byteBuf [1]byte; cond *sync.Cond; inRead bool; aborted bool; remain int64}
+  type  connectMethod                       struct{_ incomparable; proxyURL *net/url.URL; targetScheme string; targetAddr string; onlyH1 bool}
+  type  connectMethodKey                    struct{proxy string; scheme string; addr string; onlyH1 bool}
+  type  contextKey                          struct{name string}
+  type  fileHandler                         struct{root FileSystem}
+  type  fileTransport                       struct{fh fileHandler}
+  type  h2Transport                         interface{CloseIdleConnections()}
+  type  headerSorter                        struct{kvs []keyValues}
+  type  incomparable                        [0]func()
+  type  ioFS                                struct{fsys io/fs.FS}
+  type  keyValues                           struct{key string; values []string}
+  type  maxBytesReader                      struct{w ResponseWriter; r io.ReadCloser; n int64; err error}
+  type  muxEntry                            struct{h Handler; pattern string}
+  type  noBody                              struct{}
+  type  persistConn                         struct{alt RoundTripper; t *Transport; cacheKey connectMethodKey; conn net.Conn; tlsState *crypto/tls.ConnectionState; br *bufio.Reader; bw *bufio.Writer; nwrite int64; reqch chan requestAndChan; writech chan writeRequest; closech chan struct{}; isProxy bool; sawEOF bool; readLimit int64; writeErrCh chan error; writeLoopDone chan struct{}; idleAt time.Time; idleTimer *time.Timer; mu sync.Mutex; numExpectedResponses int; closed error; canceledErr error; broken bool; reused bool; mutateHeaderFunc func(Header)}
+  type  redirectHandler                     struct{url string; code int}
+  type  requestAndChan                      struct{_ incomparable; req *Request; cancelKey cancelKey; ch chan responseAndError; addedGzip bool; continueCh chan<- struct{}; callerGone <-chan struct{}}
+  type  response                            struct{conn *conn; req *Request; reqBody io.ReadCloser; cancelCtx context.CancelFunc; wroteHeader bool; wroteContinue bool; wants10KeepAlive bool; wantsClose bool; canWriteContinue atomicBool; writeContinueMu sync.Mutex; w *bufio.Writer; cw chunkWriter; handlerHeader Header; calledHeader bool; written int64; contentLength int64; status int; closeAfterReply bool; requestBodyLimitHit bool; trailers []string; handlerDone atomicBool; dateBuf [29]byte; clenBuf [10]byte; statusBuf [3]byte; closeNotifyCh chan bool; didCloseNotify int32}
+  type  responseAndError                    struct{_ incomparable; res *Response; err error}
+  type  timeoutHandler                      struct{handler Handler; body string; dt time.Duration; testContext context.Context}
+  type  transportRequest                    struct{*Request; extra Header; trace *net/http/httptrace.ClientTrace; cancelKey cancelKey; mu sync.Mutex; err error}
+  type  wantConn                            struct{cm connectMethod; key connectMethodKey; ctx context.Context; ready chan struct{}; beforeDial func(); afterDial func(); mu sync.Mutex; pc *persistConn; err error}
+  type  wantConnQueue                       struct{head []*wantConn; headPos int; tail []*wantConn}
+  type  writeRequest                        struct{req *transportRequest; ch chan<- error; continueCh <-chan struct{}}
+package example/mypack:
+  type  ABC              struct{}
+  type  InterfaceExample interface{Hi() string}
+  type  geometry         interface{area() float64; perim() float64}
+  type  myasd            struct{ABC}
+  type  rect             struct{width float64; height float64}
+  type  status           uint8
