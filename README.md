@@ -1,4 +1,4 @@
-### goir
+# goir
 
 ### crates
 - grparser: A primary crate that parses intermediate representation (IR) into Rust binding
